@@ -1,4 +1,4 @@
-package com.vrickey123.model.api
+package com.vrickey123.model
 
 data class MetSearchResult(
     val total: Int,

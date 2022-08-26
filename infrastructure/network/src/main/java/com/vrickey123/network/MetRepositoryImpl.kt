@@ -25,10 +25,11 @@ class MetRepositoryImpl(
             Result.from(metNetworkClient.fetchMetObject(objectID))
         }
 
-    // One day this could be implemented to return data from a local persistent store
-    // such as Room or a SQL Lite Database emit time that it is updated. Various caching
-    // strategies such as e-tags or updatedAfter filters could be used in the repository to
-    // return remote or local data. Apollo GraphQL has similar niceties.
+    // One day this could be implemented to emit data from a local persistent store
+    // such as Room or a SQL Lite Database every time that it is updated. This would complete a
+    // Reactive architecture. Additionally, various caching strategies such as e-tags or
+    // updatedAfter filters for REST services could be used in the repository to return remote or
+    // local data. Apollo GraphQL has similar niceties.
     // fun getMetObject(objectID): Flow<Result<MetObject>> {
     //   metLocalDataStore.getMetObject(objectID)
     // }

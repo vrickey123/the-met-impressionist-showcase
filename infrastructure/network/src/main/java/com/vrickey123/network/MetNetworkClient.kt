@@ -17,7 +17,7 @@ interface MetNetworkClient {
          * */
         fun create(): MetNetworkClient {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://collectionapi.metmuseum.org/public/collection/v1/")
+                .baseUrl("https://collectionapi.metmuseum.org")
                 .addConverterFactory(MoshiConverterFactory.create(Serialization.moshi))
                 .build()
 
@@ -25,7 +25,7 @@ interface MetNetworkClient {
         }
     }
 
-    @GET("/search/")
+    @GET("/public/collection/v1/search")
     suspend fun search(
         @Query("q") query: String,
         @Query("hasImages") hasImages: Boolean,

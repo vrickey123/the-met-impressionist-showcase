@@ -30,13 +30,14 @@ android {
 }
 
 dependencies {
-    implementation project(':core:model')
+    api project(':core:model')
 
     implementation "androidx.core:core-ktx:core_ktx_version"
 
     // Networking
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$moshi_converter_version"
+    // TODO: Change back to implementation
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-moshi:$moshi_converter_version"
 
     // Serialization
     implementation "com.squareup.moshi:moshi:$moshi_version"

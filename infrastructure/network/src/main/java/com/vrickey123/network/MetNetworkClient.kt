@@ -1,11 +1,13 @@
 package com.vrickey123.network
 
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.vrickey123.model.MetSearchResult
+import com.vrickey123.model.api.MetObject
+import com.vrickey123.model.api.MetSearchResult
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MetNetworkClient {
@@ -31,4 +33,7 @@ interface MetNetworkClient {
         @Query("hasImages") hasImages: Boolean,
         @Query("tags") tags: List<String>
     ): Response<MetSearchResult>
+
+    @GET("public/collection/v1/objects/{objectID}")
+    suspend fun getMetObject(@Path("objectID") objectID: Int): Response<MetObject>
 }

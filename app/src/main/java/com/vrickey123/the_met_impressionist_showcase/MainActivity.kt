@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.vrickey123.model.MetSearchResult
+import com.vrickey123.model.api.MetSearchResult
 import com.vrickey123.network.MetNetworkClient
 import com.vrickey123.the_met_impressionist_showcase.ui.theme.TheMetImpressionistShowcaseTheme
 
@@ -40,10 +40,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TestAPICallLaunchedEffect(client: MetNetworkClient) {
     LaunchedEffect(key1 = "impressionism") {
-        val response = client.search("impressionism", true, listOf<String>("impressionism"))
+        //val response = client.search("impressionism", true, listOf<String>("impressionism"))
+        val response = client.getMetObject(671456)
         if (response.isSuccessful) {
-            val metSearchResult: MetSearchResult? = response.body()
-            Log.d("MainActivity", "zzz total: ${metSearchResult?.total}")
+            val result = response.body()
+            //Log.d("MainActivity", "zzz total: ${result?.total}")
+            Log.d("MainActivity", "zzz objectID: ${result?.objectID}")
         } else {
             val eb = response.errorBody()
             Log.d("MainActivity", "zzz not successful ${response.errorBody().toString()}")

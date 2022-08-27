@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_artist">Artist</string>
+    <string name="label_display">On Display</string>
+    <string name="label_details">Details</string>
+</resources>

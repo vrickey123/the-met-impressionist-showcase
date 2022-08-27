@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/infrastructure/reducer" />
             <option value="$PROJECT_DIR$/infrastructure/router" />
             <option value="$PROJECT_DIR$/infrastructure/screen" />
+            <option value="$PROJECT_DIR$/infrastructure/ui_component" />
             <option value="$PROJECT_DIR$/infrastructure/viewmodel" />
           </set>
         </option>

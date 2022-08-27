@@ -1,10 +1,7 @@
 package com.vrickey123.viewmodel.painting
 
-import com.vrickey123.model.api.MetObject
-import kotlinx.coroutines.flow.StateFlow
+import com.vrickey123.viewmodel.ScreenViewModel
 
-interface PaintingViewModel {
-    val state: StateFlow<Result<MetObject>>
-    
+interface PaintingViewModel: ScreenViewModel<PaintingUIState> {
     fun getPainting(objectID: Int)
 }

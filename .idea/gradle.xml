@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/infrastructure" />
             <option value="$PROJECT_DIR$/infrastructure/network" />
             <option value="$PROJECT_DIR$/infrastructure/reducer" />
+            <option value="$PROJECT_DIR$/infrastructure/screen" />
             <option value="$PROJECT_DIR$/infrastructure/viewmodel" />
           </set>
         </option>

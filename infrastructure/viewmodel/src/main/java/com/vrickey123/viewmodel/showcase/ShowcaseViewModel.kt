@@ -1,10 +1,7 @@
 package com.vrickey123.viewmodel.showcase
 
-import com.vrickey123.model.api.MetObject
-import kotlinx.coroutines.flow.StateFlow
+import com.vrickey123.viewmodel.ScreenViewModel
 
-interface ShowcaseViewModel {
-    val state: StateFlow<Result<List<MetObject>>>
-
+interface ShowcaseViewModel: ScreenViewModel<ShowcaseUIState> {
     fun getPaintings()
 }

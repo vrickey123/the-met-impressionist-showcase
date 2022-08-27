@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.vrickey123.model.ImageData
+import com.vrickey123.ui_component.image.AsyncImageComponent
 
 @Composable
 fun ShowcaseCard(
@@ -23,15 +24,7 @@ fun ShowcaseCard(
     imageData: ImageData,
 ) {
     ElevatedCard(modifier.fillMaxWidth()) {
-        AsyncImage(
-            modifier = Modifier.fillMaxWidth(),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(imageData.url)
-                .crossfade(true)
-                .build(),
-            contentDescription = imageData.contentDescription,
-            contentScale = ContentScale.Fit,
-        )
+        AsyncImageComponent(imageData)
         Column(Modifier.padding(horizontal = 20.dp)) {
             Text(modifier = Modifier.padding(top = 10.dp), text = title)
             Text(modifier = Modifier.padding(vertical = 10.dp), text = artistDisplayName)

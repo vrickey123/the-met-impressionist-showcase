@@ -1,4 +1,4 @@
-package com.vrickey123.viewmodel
+package com.vrickey123.model.state
 
 interface UIState {
     val data: Any?

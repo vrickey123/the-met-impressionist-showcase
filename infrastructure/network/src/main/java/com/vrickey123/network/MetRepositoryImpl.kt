@@ -8,20 +8,20 @@ import kotlinx.coroutines.withContext
 
 class MetRepositoryImpl(
     override val metNetworkClient: MetNetworkClient,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MetRepository {
 
     override suspend fun search(
         query: String,
         hasImages: Boolean,
         tags: List<String>
-    ): Result<MetSearchResult> = withContext(ioDispatcher) {
+    ): Result<MetSearchResult> = withContext(dispatcher) {
         Result.from(metNetworkClient.search(query, hasImages, tags))
     }
 
 
     override suspend fun fetchMetObject(objectID: Int): Result<MetObject> =
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             Result.from(metNetworkClient.fetchMetObject(objectID))
         }
 

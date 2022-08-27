@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/infrastructure" />
             <option value="$PROJECT_DIR$/infrastructure/network" />
+            <option value="$PROJECT_DIR$/infrastructure/viewmodel" />
           </set>
         </option>
       </GradleProjectSettings>

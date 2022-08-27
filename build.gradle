@@ -12,6 +12,7 @@ buildscript {
         moshi_converter_version = '2.5.0'
         material3_version = '1.0.0-beta01'
         nav_version = '2.5.1'
+        coil_compose_version = '2.2.0'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

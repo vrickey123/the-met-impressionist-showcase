@@ -17,11 +17,12 @@ import com.vrickey123.model.ImageData
 
 @Composable
 fun ShowcaseCard(
+    modifier: Modifier = Modifier,
     title: String,
     artistDisplayName: String,
     imageData: ImageData,
 ) {
-    ElevatedCard(Modifier.fillMaxWidth()) {
+    ElevatedCard(modifier.fillMaxWidth()) {
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             model = ImageRequest.Builder(LocalContext.current)

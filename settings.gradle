@@ -16,3 +16,4 @@ rootProject.name = "The Met Impressionist Showcase"
 include ':app'
 include ':infrastructure:network'
 include ':core:model'
+include ':infrastructure:viewmodel'

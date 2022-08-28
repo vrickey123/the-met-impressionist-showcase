@@ -34,6 +34,8 @@ interface MetRepository {
      * */
     fun getMetObjects(): Flow<List<MetObject>>
 
+    fun getMetObject(objectID: Int): Flow<MetObject>
+
     // One day various caching strategies such as e-tags or updatedAfter filters with 304 HTTP
     // Not Modified response codes for REST services could be used in the repository to return
     // remote or local data. Apollo GraphQL has similar niceties. For now, we'll return local

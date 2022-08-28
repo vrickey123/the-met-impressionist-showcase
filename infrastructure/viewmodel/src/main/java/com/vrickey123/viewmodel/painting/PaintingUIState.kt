@@ -22,6 +22,6 @@ data class PaintingUIState(
         objectURL = "",
         GalleryNumber = ""
     ),
-    override val loading: Boolean,
-    override val error: Throwable?
+    override val loading: Boolean = false,
+    override val error: Throwable? = null
 ) : UIState

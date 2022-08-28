@@ -50,6 +50,10 @@ class MetRepositoryImpl(
         return metDatabase.metObjectDAO().getAllAsFlow()
     }
 
+    override fun getMetObject(objectID: Int): Flow<MetObject> {
+        return metDatabase.metObjectDAO().getAsFlow(objectID)
+    }
+
     // See code comment in interface MetRepository
     override suspend fun getLocalThenRemoteMetObjects(): Result<List<MetObject>> =
         withContext(dispatcher) {

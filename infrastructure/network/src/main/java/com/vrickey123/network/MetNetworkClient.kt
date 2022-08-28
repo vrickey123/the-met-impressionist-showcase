@@ -1,14 +1,19 @@
 package com.vrickey123.network
 
+import android.app.Application
+import android.content.Context
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import okhttp3.Cache
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.io.File
 
 interface MetNetworkClient {
 
@@ -21,13 +26,22 @@ interface MetNetworkClient {
          * requests, which should fall under the 80 requests per second rate limit of the Met API.
          * https://stackoverflow.com/questions/52881862/throttle-or-limit-kotlin-coroutine-count
          * */
-        fun create(): MetNetworkClient {
+        fun create(okHttpClient: OkHttpClient): MetNetworkClient {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://collectionapi.metmuseum.org")
                 .addConverterFactory(MoshiConverterFactory.create(Serialization.moshi))
+                .client(okHttpClient)
                 .build()
 
             return retrofit.create(MetNetworkClient::class.java)
+        }
+
+        fun buildOkHttpClient(context: Context): OkHttpClient {
+            val cacheDir = File(context.cacheDir, "http_cache")
+            val cacheSize = 50L * 1024L * 1024L // 50 MiB
+            return OkHttpClient.Builder()
+                .cache(Cache(cacheDir, cacheSize))
+                .build()
         }
     }
 

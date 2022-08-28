@@ -73,6 +73,7 @@ class MetRepositoryImpl(
             return@withContext try {
                 val metObjects: List<MetObject> = objectIDs
                     .map { objectID -> fetchMetObject(objectID).getOrThrow() }
+                    // API hasImages=true sometimes returns MetObject's with empty primary images
                     .filter { it.primaryImageSmall.isNotEmpty() }
                 metDatabase.metObjectDAO().insertAll(metObjects)
                 Result.success(metObjects)

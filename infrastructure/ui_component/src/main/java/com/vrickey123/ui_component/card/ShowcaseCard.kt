@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,8 +27,8 @@ fun ShowcaseCard(
     ElevatedCard(modifier.fillMaxWidth()) {
         AsyncImageComponent(imageData = imageData)
         Column(Modifier.padding(horizontal = 20.dp)) {
-            Text(modifier = Modifier.padding(top = 10.dp), text = title)
-            Text(modifier = Modifier.padding(vertical = 10.dp), text = artistDisplayName)
+            Text(modifier = Modifier.padding(top = 10.dp), text = title, style = MaterialTheme.typography.headlineMedium)
+            Text(modifier = Modifier.padding(vertical = 10.dp), text = artistDisplayName, style = MaterialTheme.typography.labelLarge)
         }
     }
 }

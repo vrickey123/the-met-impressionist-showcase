@@ -5,13 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
 import com.vrickey123.network.MetRepository
+import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
 import com.vrickey123.viewmodel.showcase.ShowcaseUIState
 import com.vrickey123.viewmodel.showcase.ShowcaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class ShowcaseViewModelImpl(
-    override val metRepository: MetRepository
+@HiltViewModel
+class ShowcaseViewModelImpl @Inject constructor(
+    @MetRepoImpl override val metRepository: MetRepository
 ) : ViewModel(), ShowcaseViewModel, Reducer<ShowcaseUIState, List<MetObject>> {
 
     companion object {

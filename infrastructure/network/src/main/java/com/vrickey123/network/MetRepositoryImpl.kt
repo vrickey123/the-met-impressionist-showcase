@@ -20,6 +20,7 @@ class MetRepositoryImpl(
     companion object {
         const val QUERY = "impressionism"
         val TAGS = listOf<String>("impressionism")
+        private val TAG by lazy { MetRepositoryImpl::class.java.simpleName }
     }
 
     override suspend fun fetchMetSearchResult(
@@ -27,7 +28,7 @@ class MetRepositoryImpl(
         hasImages: Boolean,
         tags: List<String>
     ): Result<MetSearchResult> = withContext(dispatcher) {
-        Log.d("MetRepositoryImpl", "Search query: $query")
+        Log.d(TAG, "Search query: $query")
         return@withContext try {
             Result.from(metNetworkClient.search(query, hasImages, tags))
         } catch (e: Throwable) {
@@ -38,7 +39,7 @@ class MetRepositoryImpl(
 
     override suspend fun fetchMetObject(objectID: Int): Result<MetObject> =
         withContext(dispatcher) {
-            Log.d("MetRepositoryImpl", "Fetch objectID: $objectID")
+            Log.d(TAG, "Fetch objectID: $objectID")
             return@withContext try {
                 Result.from(metNetworkClient.fetchMetObject(objectID))
             } catch (e: Throwable) {
@@ -50,20 +51,30 @@ class MetRepositoryImpl(
         return metDatabase.metObjectDAO().getAllAsFlow()
     }
 
-    override fun getMetObject(objectID: Int): Flow<MetObject> {
+    override fun getMetObjectAsFlow(objectID: String): Flow<MetObject> {
         return metDatabase.metObjectDAO().getAsFlow(objectID)
     }
+
+    override suspend fun getMetObject(objectID: String): Result<MetObject> =
+        withContext(dispatcher) {
+            Log.d(TAG, "Get from DB: $objectID")
+            return@withContext try {
+                Result.success(metDatabase.metObjectDAO().get(objectID))
+            } catch (e: Throwable) {
+                Result.failure(e)
+            }
+        }
 
     // See code comment in interface MetRepository
     override suspend fun getLocalThenRemoteMetObjects(): Result<List<MetObject>> =
         withContext(dispatcher) {
-            Log.d("MetRepositoryImpl", "getLocalThenRemoteMetObjects")
+            Log.d(TAG, "get local or remote data")
             return@withContext try {
                 if (metDatabase.metObjectDAO().getAll().isNotEmpty()) {
-                    Log.d("MetRepositoryImpl", "isNotEmpty")
+                    Log.d(TAG, "returning local data from DB")
                     Result.success(metDatabase.metObjectDAO().getAll())
                 } else {
-                    Log.d("MetRepositoryImpl", "fetching all met objects")
+                    Log.d(TAG, "fetching all met objects")
                     val metSearchResult = fetchMetSearchResult(QUERY, true, TAGS)
                     val metObjects = fetchAndInsertAllMetObjects(metSearchResult.getOrThrow().objectIDs)
                     Result.success(metObjects.getOrThrow())

@@ -16,7 +16,10 @@ interface MetObjectDAO {
     suspend fun getAll(): List<MetObject>
 
     @Query("SELECT * FROM metobject WHERE objectID = :objectID")
-    fun getAsFlow(objectID: Int): Flow<MetObject>
+    suspend fun get(objectID: String): MetObject
+
+    @Query("SELECT * FROM metobject WHERE objectID = :objectID")
+    fun getAsFlow(objectID: String): Flow<MetObject>
 
     @Insert
     suspend fun insert(metObject: MetObject)

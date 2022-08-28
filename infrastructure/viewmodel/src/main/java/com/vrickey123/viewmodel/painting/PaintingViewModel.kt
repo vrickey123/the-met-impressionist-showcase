@@ -5,6 +5,7 @@ import com.vrickey123.viewmodel.ScreenViewModel
 
 interface PaintingViewModel: ScreenViewModel<PaintingUIState> {
     val metRepository: MetRepository
+    var objectID: String
 
-    fun getPainting(objectID: Int)
+    fun getPainting(objectID: String)
 }

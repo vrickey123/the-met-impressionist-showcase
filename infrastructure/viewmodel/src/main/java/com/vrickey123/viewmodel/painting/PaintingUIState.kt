@@ -4,7 +4,7 @@ import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.state.UIState
 
 data class PaintingUIState(
-    override val data: MetObject = MetObject(
+    override val uiStateData: MetObject = MetObject(
         objectID = "",
         isHighlight = false,
         isPublicDomain = false,

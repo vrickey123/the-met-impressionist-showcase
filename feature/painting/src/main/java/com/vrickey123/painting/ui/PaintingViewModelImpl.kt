@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.network.MetRepository
+import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
 import com.vrickey123.viewmodel.painting.PaintingUIState
 import com.vrickey123.viewmodel.painting.PaintingViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class PaintingViewModelImpl(
-    override val metRepository: MetRepository
-) : ViewModel(),
-    PaintingViewModel, Reducer<PaintingUIState, MetObject> {
+@HiltViewModel
+class PaintingViewModelImpl @Inject constructor(
+    @MetRepoImpl override val metRepository: MetRepository
+) : ViewModel(), PaintingViewModel, Reducer<PaintingUIState, MetObject> {
 
     override val mutableState: MutableStateFlow<PaintingUIState> =
         MutableStateFlow(PaintingUIState(loading = true))
@@ -21,23 +24,22 @@ class PaintingViewModelImpl(
     override val state: StateFlow<PaintingUIState>
         get() = mutableState
 
-    var objectID: Int = 0
+    override var objectID: String = "";
 
     init {
-        // TODO: Pass in or set objectID
-        // getPainting()
+        getPainting(objectID)
     }
 
-    override fun getPainting(objectID: Int) {
-        metRepository.getMetObject(objectID)
-            .onEach { mutableState.emit(reduce(Result.success(it))) }
+    override fun getPainting(objectID: String) {
+        flow { emit(metRepository.getMetObject(objectID)) }
+            .onEach { mutableState.emit(reduce(it)) }
             .catch { mutableState.emit(reduce(Result.failure(it))) }
             .launchIn(viewModelScope)
     }
 
     override fun reduce(result: Result<MetObject>): PaintingUIState {
         return if (result.isSuccess) {
-            PaintingUIState(data = result.getOrThrow())
+            PaintingUIState(uiStateData = result.getOrThrow())
         } else {
             PaintingUIState(error = result.exceptionOrNull())
         }

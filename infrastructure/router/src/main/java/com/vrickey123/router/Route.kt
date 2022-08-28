@@ -14,9 +14,9 @@ sealed class Route(val route: String) {
         }
 
         object Showcase: NavGraph(ROOT_SHOWCASE_GRAPH)
-        object Painting: NavGraph(QueryParameter.create(ROOT_PAINTING_GRAPH, QueryParameter.ID)), HasIDArgument {
+        object Painting: NavGraph(Path.create(ROOT_PAINTING_GRAPH, Path.ID)), HasIDArgument {
             override fun getQualifiedPath(objectID: String): String {
-                return QueryParameter.replace(route, QueryParameter.ID, objectID)
+                return Path.replace(route, Path.ID, objectID)
             }
         }
     }
@@ -28,9 +28,9 @@ sealed class Route(val route: String) {
         }
 
         object Showcase : NavGraph(ROOT_SHOWCASE_SCREEN)
-        object Painting : NavGraph(QueryParameter.create(ROOT_PAINTING_SCREEN, QueryParameter.ID)), HasIDArgument {
+        object Painting : NavGraph(Path.create(ROOT_PAINTING_SCREEN, Path.ID)), HasIDArgument {
             override fun getQualifiedPath(objectID: String): String {
-                return QueryParameter.replace(route, QueryParameter.ID, objectID)
+                return Path.replace(route, Path.ID, objectID)
             }
         }
     }

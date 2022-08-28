@@ -49,6 +49,7 @@ android {
 
 dependencies {
     implementation project(':feature:showcase')
+    implementation project(':feature:painting')
     implementation project(':infrastructure:router')
 
     implementation "androidx.core:core-ktx:$core_ktx_version"

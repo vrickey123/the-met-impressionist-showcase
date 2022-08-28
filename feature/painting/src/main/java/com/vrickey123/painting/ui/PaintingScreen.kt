@@ -20,19 +20,19 @@ fun PaintingScreen(
         Column(modifier) {
             AsyncImageComponent(
                 imageData = ImageData(
-                    url = paintingUIState.data.primaryImageSmall,
-                    contentDescription = paintingUIState.data.title
+                    url = paintingUIState.uiStateData.primaryImageSmall,
+                    contentDescription = paintingUIState.uiStateData.title
                 )
             )
             AboutPaintingCard(
-                title = paintingUIState.data.title,
-                artistDisplayName = paintingUIState.data.artistDisplayName,
-                artistNationality = paintingUIState.data.artistNationality,
-                artistDisplayBio = paintingUIState.data.artistDisplayBio,
-                department = paintingUIState.data.department,
-                galleryNumber = paintingUIState.data.GalleryNumber,
-                medium = paintingUIState.data.medium,
-                dimensions = paintingUIState.data.dimensions
+                title = paintingUIState.uiStateData.title,
+                artistDisplayName = paintingUIState.uiStateData.artistDisplayName,
+                artistNationality = paintingUIState.uiStateData.artistNationality,
+                artistDisplayBio = paintingUIState.uiStateData.artistDisplayBio,
+                department = paintingUIState.uiStateData.department,
+                galleryNumber = paintingUIState.uiStateData.GalleryNumber,
+                medium = paintingUIState.uiStateData.medium,
+                dimensions = paintingUIState.uiStateData.dimensions
             )
         }
     }

@@ -34,7 +34,7 @@ class ShowcaseViewModelImpl @Inject constructor(
     }
 
     override fun getPaintings() {
-        flow<Result<MetSearchResult>> { metRepository.search(QUERY, true, TAGS) }
+        flow<Result<MetSearchResult>> { emit(metRepository.search(QUERY, true, TAGS)) }
             .map { metSearchResult ->
                 // make a fetchMetObject API call for each objectID in the MetSearchResult
                 metSearchResult.getOrThrow().objectIDs.map { metRepository.fetchMetObject(it) }
@@ -44,8 +44,8 @@ class ShowcaseViewModelImpl @Inject constructor(
                 // transform a List<Result<MetObject> to a List<MetObject>
                 listOfResult.map { it.getOrThrow() }
             }
-            .onEach { mutableState.emit(reduce(Result.success(it))) }
-            .catch { mutableState.emit(ShowcaseUIState(error = Throwable("Flow error"))) }
+            .onEach { mutableState.emit(ShowcaseUIState(data = it)) }
+            .catch { mutableState.emit(ShowcaseUIState(error = it)) }
             .launchIn(viewModelScope)
     }
 

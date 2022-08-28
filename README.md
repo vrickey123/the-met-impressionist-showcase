@@ -5,7 +5,7 @@
 
 Native Dashboard             |  Web Lessons
 :-------------------------:|:-------------------------:
-<img src="https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/painting-screen.png width="360">  |  <img src=https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/showcase-screen.png width="360">
+<img src="https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/painting-screen.png width="360">  |  <img src=https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/showcase-screen.png" width="360">
 
 ## Architecture
 Follows a Redux-style architecture where an API call of `Result<T>` is reduced into a `UIState<T>`, which emits a `StateFlow<UIState>`. A generic `StatefulScreen<T: UIState>` Composable renders the `UIState` into success, loading, or error UI. Advice on Android vs Compose API's found in [State in Compose](https://developer.android.com/jetpack/compose/state) documentation.

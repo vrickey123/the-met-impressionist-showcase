@@ -1,5 +1,6 @@
 package com.vrickey123.network
 
+import android.util.Log
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,12 +17,14 @@ class MetRepositoryImpl(
         hasImages: Boolean,
         tags: List<String>
     ): Result<MetSearchResult> = withContext(dispatcher) {
+        Log.d("MetRepositoryImpl", "Search query: $query")
         Result.from(metNetworkClient.search(query, hasImages, tags))
     }
 
 
     override suspend fun fetchMetObject(objectID: Int): Result<MetObject> =
         withContext(dispatcher) {
+            Log.d("MetRepositoryImpl", "Fetch objectID: $objectID")
             Result.from(metNetworkClient.fetchMetObject(objectID))
         }
 

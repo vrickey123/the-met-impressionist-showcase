@@ -43,21 +43,21 @@ class MetRepositoryImplTest {
     @Test
     fun search_networkClientCalledOnce() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
-        subject.search(QUERY_STRING, true, emptyList())
+        subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         coVerify(exactly = 1) { client.search(QUERY_STRING, true, emptyList()) }
     }
 
     @Test
     fun search_networkResponseSuccess_resultSuccess() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
-        val result: Result<MetSearchResult> = subject.search(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun search_networkResponseError_resultFailure() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
-        val result: Result<MetSearchResult> = subject.search(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isFailure)
     }
 

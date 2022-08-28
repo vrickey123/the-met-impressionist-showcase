@@ -10,13 +10,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MetObjectDAO {
     @Query("SELECT * FROM metobject")
-    fun getAll(): Flow<List<MetObject>>
+    fun getAllAsFlow(): Flow<List<MetObject>>
+
+    @Query("SELECT * FROM metobject")
+    suspend fun getAll(): List<MetObject>
 
     @Insert
     suspend fun insertMetObject(metObject: MetObject)
 
     @Insert
-    suspend fun insertAll(metObject: MetObject)
+    suspend fun insertAll(metObjects: List<MetObject>)
 
     @Delete
     suspend fun deleteMetObject(metObject: MetObject)

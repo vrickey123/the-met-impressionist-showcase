@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.network.MetRepository
+import com.vrickey123.network.MetRepositoryImpl.Companion.QUERY
+import com.vrickey123.network.MetRepositoryImpl.Companion.TAGS
 import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
 import com.vrickey123.viewmodel.showcase.ShowcaseUIState
@@ -17,11 +19,6 @@ class ShowcaseViewModelImpl @Inject constructor(
     @MetRepoImpl override val metRepository: MetRepository
 ) : ViewModel(), ShowcaseViewModel, Reducer<ShowcaseUIState, List<MetObject>> {
 
-    companion object {
-        const val QUERY = "impressionism"
-        val TAGS = listOf<String>("impressionism")
-    }
-
     override val mutableState: MutableStateFlow<ShowcaseUIState> =
         MutableStateFlow(ShowcaseUIState(loading = true))
 
@@ -29,23 +26,31 @@ class ShowcaseViewModelImpl @Inject constructor(
         get() = mutableState
 
     init {
-        getPaintings()
-    }
-
-    override fun getPaintings() {
-        flow {
-            emit(metRepository.search(QUERY, true, TAGS))
+        // fetchPaintings()
+        /*flow {
+            emit(metRepository.fetchMetSearchResult(QUERY, true, TAGS))
         }.map { metSearchResult ->
             // make a fetchMetObject API call for each objectID in the MetSearchResult
             metSearchResult.getOrThrow().objectIDs.map { objectID ->
                 // transform a List<Result<MetObject> to a List<MetObject> or throw a caught exception
-                metRepository.fetchMetObject(objectID).getOrThrow()
+                val metObject = metRepository.fetchMetObject(objectID).getOrThrow()
+                metRepository.metDatabase.metObjectDAO().insertMetObject(metObject)
+                metObject
             }
         }.onEach {
             mutableState.emit(reduce(Result.success(it)))
         }.catch {
             mutableState.emit(reduce(Result.failure(it)))
-        }.launchIn(viewModelScope)
+        }.launchIn(viewModelScope)*/
+
+        getPaintings()
+    }
+
+    override fun getPaintings() {
+        flow { emit(metRepository.getLocalThenRemoteMetObjects()) }
+            .onEach { mutableState.emit(reduce(it)) }
+            .catch { mutableState.emit(reduce(Result.failure(it))) }
+            .launchIn(viewModelScope)
     }
 
     override fun reduce(result: Result<List<MetObject>>): ShowcaseUIState {

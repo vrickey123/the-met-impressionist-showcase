@@ -1,6 +1,8 @@
 package com.vrickey123.painting.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.vrickey123.model.ImageData
@@ -17,7 +19,7 @@ fun PaintingScreen(
     router: Router
 ) {
     StatefulScreen(modifier = modifier, screenViewModel = paintingViewModel) { paintingUIState ->
-        Column(modifier) {
+        Column(modifier.verticalScroll(state = rememberScrollState())) {
             AsyncImageComponent(
                 imageData = ImageData(
                     url = paintingUIState.uiStateData.primaryImageSmall,

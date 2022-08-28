@@ -34,7 +34,7 @@ fun ShowcaseCard(
 
 @Preview
 @Composable
-fun ShowcaseCardPortraitImagePreview() {
+internal fun ShowcaseCardPortraitImagePreview() {
     ShowcaseCard(
         title = "Hello World",
         artistDisplayName = "vrickey123",
@@ -47,7 +47,7 @@ fun ShowcaseCardPortraitImagePreview() {
 
 @Preview
 @Composable
-fun ShowcaseCardLandscapeImagePreview() {
+internal fun ShowcaseCardLandscapeImagePreview() {
     ShowcaseCard(
         title = "Hello World",
         artistDisplayName = "vrickey123",

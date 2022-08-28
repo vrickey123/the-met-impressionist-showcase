@@ -1,10 +1,10 @@
-package com.vrickey123.network
+package com.vrickey123.network.remote
 
-import android.app.Application
 import android.content.Context
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import com.vrickey123.network.Serialization
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Response

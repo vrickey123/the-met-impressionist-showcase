@@ -3,12 +3,16 @@ package com.vrickey123.network
 import android.util.Log
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import com.vrickey123.network.local.MetDatabase
+import com.vrickey123.network.remote.MetNetworkClient
+import com.vrickey123.network.remote.from
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MetRepositoryImpl(
     override val metNetworkClient: MetNetworkClient,
+    override val metDatabase: MetDatabase,
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MetRepository {
 

@@ -10,7 +10,6 @@ data class PaintingUIState(
         isPublicDomain = false,
         primaryImage = "",
         primaryImageSmall = "",
-        additionalImages = emptyList(),
         department = "",
         objectName = "",
         title = "",

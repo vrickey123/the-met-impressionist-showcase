@@ -1,4 +1,4 @@
-package com.vrickey123.network
+package com.vrickey123.network.remote
 
 import retrofit2.Response
 

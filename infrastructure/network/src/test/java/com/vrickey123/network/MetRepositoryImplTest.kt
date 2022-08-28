@@ -2,6 +2,7 @@ package com.vrickey123.network
 
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import com.vrickey123.network.remote.MetNetworkClient
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
@@ -14,7 +15,6 @@ import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
-import kotlin.Result.Companion.failure
 
 // https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/README.md
 @OptIn(ExperimentalCoroutinesApi::class)

@@ -2,11 +2,13 @@ package com.vrickey123.network
 
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import com.vrickey123.network.local.MetDatabase
+import com.vrickey123.network.remote.MetNetworkClient
 import kotlinx.coroutines.CoroutineDispatcher
 
 interface MetRepository {
     val metNetworkClient: MetNetworkClient
-    // val metLocalDataStore: MetLocalDataStore
+    val metDatabase: MetDatabase
     val dispatcher: CoroutineDispatcher
 
     /**

@@ -24,8 +24,8 @@ fun AboutPaintingCard(
     medium: String,
     dimensions: String
 ) {
-    Card(modifier.fillMaxSize()) {
-        Column(Modifier.padding(horizontal = 20.dp).fillMaxSize()) {
+    Card(modifier.fillMaxWidth()) {
+        Column(Modifier.padding(horizontal = 20.dp)) {
             Text(modifier = Modifier.padding(top = 10.dp), text = String.format("%s by %s", title, artistDisplayName))
             ArtistComponent(Modifier.padding(top = 10.dp), artistNationality, artistDisplayBio)
             DisplayComponent(Modifier.padding(top = 10.dp), department, galleryNumber)

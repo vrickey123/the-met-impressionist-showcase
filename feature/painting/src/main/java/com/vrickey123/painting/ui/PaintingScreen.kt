@@ -1,8 +1,7 @@
 package com.vrickey123.painting.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.vrickey123.model.ImageData
@@ -19,23 +18,29 @@ fun PaintingScreen(
     router: Router
 ) {
     StatefulScreen(modifier = modifier, screenViewModel = paintingViewModel) { paintingUIState ->
-        Column(modifier.verticalScroll(state = rememberScrollState())) {
-            AsyncImageComponent(
-                imageData = ImageData(
-                    url = paintingUIState.uiStateData.primaryImageSmall,
-                    contentDescription = paintingUIState.uiStateData.title
-                )
-            )
-            AboutPaintingCard(
-                title = paintingUIState.uiStateData.title,
-                artistDisplayName = paintingUIState.uiStateData.artistDisplayName,
-                artistNationality = paintingUIState.uiStateData.artistNationality,
-                artistDisplayBio = paintingUIState.uiStateData.artistDisplayBio,
-                department = paintingUIState.uiStateData.department,
-                galleryNumber = paintingUIState.uiStateData.GalleryNumber,
-                medium = paintingUIState.uiStateData.medium,
-                dimensions = paintingUIState.uiStateData.dimensions
-            )
+        // https://stackoverflow.com/questions/69394543/fillmaxsize-modifier-not-working-when-combined-with-verticalscroll-in-jetpack-co
+        LazyColumn {
+            item {
+                Column {
+                    AsyncImageComponent(
+                        imageData = ImageData(
+                            url = paintingUIState.uiStateData.primaryImageSmall,
+                            contentDescription = paintingUIState.uiStateData.title
+                        )
+                    )
+                    AboutPaintingCard(
+                        modifier = Modifier.fillParentMaxHeight(),
+                        title = paintingUIState.uiStateData.title,
+                        artistDisplayName = paintingUIState.uiStateData.artistDisplayName,
+                        artistNationality = paintingUIState.uiStateData.artistNationality,
+                        artistDisplayBio = paintingUIState.uiStateData.artistDisplayBio,
+                        department = paintingUIState.uiStateData.department,
+                        galleryNumber = paintingUIState.uiStateData.GalleryNumber,
+                        medium = paintingUIState.uiStateData.medium,
+                        dimensions = paintingUIState.uiStateData.dimensions
+                    )
+                }
+            }
         }
     }
 }

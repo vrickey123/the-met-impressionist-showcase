@@ -12,11 +12,12 @@ import com.vrickey123.model.ImageData
 
 @Composable
 fun AsyncImageComponent(
+    modifier: Modifier = Modifier,
     imageData: ImageData,
     contentScale: ContentScale = ContentScale.Crop
 ) {
     AsyncImage(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageData.url)
             .crossfade(true)

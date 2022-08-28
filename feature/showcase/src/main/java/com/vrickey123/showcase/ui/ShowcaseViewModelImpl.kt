@@ -17,11 +17,6 @@ class ShowcaseViewModelImpl @Inject constructor(
     @MetRepoImpl override val metRepository: MetRepository
 ) : ViewModel(), ShowcaseViewModel, Reducer<ShowcaseUIState, List<MetObject>> {
 
-    companion object {
-        const val QUERY = "impressionism"
-        val TAGS = listOf<String>("impressionism")
-    }
-
     override val mutableState: MutableStateFlow<ShowcaseUIState> =
         MutableStateFlow(ShowcaseUIState(loading = true))
 
@@ -33,19 +28,10 @@ class ShowcaseViewModelImpl @Inject constructor(
     }
 
     override fun getPaintings() {
-        flow {
-            emit(metRepository.search(QUERY, true, TAGS))
-        }.map { metSearchResult ->
-            // make a fetchMetObject API call for each objectID in the MetSearchResult
-            metSearchResult.getOrThrow().objectIDs.map { objectID ->
-                // transform a List<Result<MetObject> to a List<MetObject> or throw a caught exception
-                metRepository.fetchMetObject(objectID).getOrThrow()
-            }
-        }.onEach {
-            mutableState.emit(reduce(Result.success(it)))
-        }.catch {
-            mutableState.emit(reduce(Result.failure(it)))
-        }.launchIn(viewModelScope)
+        flow { emit(metRepository.getLocalThenRemoteMetObjects()) }
+            .onEach { mutableState.emit(reduce(it)) }
+            .catch { mutableState.emit(reduce(Result.failure(it))) }
+            .launchIn(viewModelScope)
     }
 
     override fun reduce(result: Result<List<MetObject>>): ShowcaseUIState {

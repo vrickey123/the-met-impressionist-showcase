@@ -2,6 +2,7 @@ package com.vrickey123.network
 
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.api.MetSearchResult
+import com.vrickey123.network.remote.MetNetworkClient
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
@@ -14,7 +15,6 @@ import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
-import kotlin.Result.Companion.failure
 
 // https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/README.md
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,21 +43,21 @@ class MetRepositoryImplTest {
     @Test
     fun search_networkClientCalledOnce() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
-        subject.search(QUERY_STRING, true, emptyList())
+        subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         coVerify(exactly = 1) { client.search(QUERY_STRING, true, emptyList()) }
     }
 
     @Test
     fun search_networkResponseSuccess_resultSuccess() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
-        val result: Result<MetSearchResult> = subject.search(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun search_networkResponseError_resultFailure() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
-        val result: Result<MetSearchResult> = subject.search(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isFailure)
     }
 

@@ -39,7 +39,7 @@ class PaintingViewModelImpl @Inject constructor(
 
     override fun reduce(result: Result<MetObject>): PaintingUIState {
         return if (result.isSuccess) {
-            PaintingUIState(uiStateData = result.getOrThrow())
+            PaintingUIState(data = result.getOrThrow())
         } else {
             PaintingUIState(error = result.exceptionOrNull())
         }

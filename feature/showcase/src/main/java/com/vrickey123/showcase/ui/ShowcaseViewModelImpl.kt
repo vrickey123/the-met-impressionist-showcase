@@ -36,7 +36,7 @@ class ShowcaseViewModelImpl @Inject constructor(
 
     override fun reduce(result: Result<List<MetObject>>): ShowcaseUIState {
         return if (result.isSuccess) {
-            ShowcaseUIState(uiStateData = result.getOrDefault(emptyList()))
+            ShowcaseUIState(data = result.getOrDefault(emptyList()))
         } else {
             ShowcaseUIState(error = result.exceptionOrNull())
         }

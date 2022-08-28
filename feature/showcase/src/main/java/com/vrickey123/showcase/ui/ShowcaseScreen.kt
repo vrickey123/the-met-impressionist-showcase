@@ -22,18 +22,18 @@ fun ShowcaseScreen(
     StatefulScreen(modifier = modifier, screenViewModel = showcaseViewModel) { showcaseUIState ->
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(
-                count = showcaseUIState.uiStateData.size,
-                key = { index -> showcaseUIState.uiStateData[index].objectID },
+                count = showcaseUIState.data.size,
+                key = { index -> showcaseUIState.data[index].objectID },
             ) { i ->
                 ShowcaseCard(
                     modifier = Modifier.clickable {
-                        router.navigate(Route.NavGraph.Painting, showcaseUIState.uiStateData[i].objectID)
+                        router.navigate(Route.NavGraph.Painting, showcaseUIState.data[i].objectID)
                     },
-                    title = showcaseUIState.uiStateData[i].title,
-                    artistDisplayName = showcaseUIState.uiStateData[i].artistDisplayName,
+                    title = showcaseUIState.data[i].title,
+                    artistDisplayName = showcaseUIState.data[i].artistDisplayName,
                     imageData = ImageData(
-                        url = showcaseUIState.uiStateData[i].primaryImageSmall,
-                        contentDescription = showcaseUIState.uiStateData[i].title
+                        url = showcaseUIState.data[i].primaryImageSmall,
+                        contentDescription = showcaseUIState.data[i].title
                     )
                 )
             }

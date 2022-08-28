@@ -2,11 +2,13 @@ package com.vrickey123.ui_component.card
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vrickey123.model.api.MetObject
@@ -26,7 +28,11 @@ fun AboutPaintingCard(
 ) {
     Card(modifier.fillMaxWidth()) {
         Column(Modifier.padding(horizontal = 20.dp)) {
-            Text(modifier = Modifier.padding(top = 10.dp), text = String.format("%s by %s", title, artistDisplayName))
+            Text(
+                modifier = Modifier.padding(top = 10.dp),
+                text = String.format("%s by %s", title, artistDisplayName),
+                style = MaterialTheme.typography.displaySmall
+            )
             ArtistComponent(Modifier.padding(top = 10.dp), artistNationality, artistDisplayBio)
             DisplayComponent(Modifier.padding(top = 10.dp), department, galleryNumber)
             DetailsComponent(Modifier.padding(vertical = 10.dp), medium, dimensions)
@@ -41,9 +47,21 @@ internal fun ArtistComponent(
     artistDisplayBio: String,
 ) {
     Column(modifier = modifier) {
-        Text(text = stringResource(R.string.label_artist))
-        Text(modifier = Modifier.padding(top = 10.dp), text = "Nationality: $artistNationality")
-        Text(modifier = Modifier.padding(top = 10.dp), text = artistDisplayBio)
+        Text(
+            text = stringResource(R.string.label_artist),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.W500
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = "Nationality: $artistNationality",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = artistDisplayBio,
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 
@@ -54,9 +72,21 @@ internal fun DisplayComponent(
     galleryNumber: String,
 ) {
     Column(modifier) {
-        Text(text = stringResource(R.string.label_display))
-        Text(modifier = Modifier.padding(top = 10.dp), text = "Department: $department")
-        Text(modifier = Modifier.padding(top = 10.dp), text = "Gallery Number: $galleryNumber")
+        Text(
+            text = stringResource(R.string.label_display),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.W500
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = "Department: $department",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = "Gallery Number: $galleryNumber",
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 
@@ -67,9 +97,21 @@ internal fun DetailsComponent(
     dimensions: String,
 ) {
     Column(modifier) {
-        Text(text = stringResource(R.string.label_details))
-        Text(modifier = Modifier.padding(top = 10.dp), text = "Medium: $medium")
-        Text(modifier = Modifier.padding(top = 10.dp), text = "Dimensions: $dimensions")
+        Text(
+            text = stringResource(R.string.label_details),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.W500
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = "Medium: $medium",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Text(
+            modifier = Modifier.padding(top = 10.dp),
+            text = "Dimensions: $dimensions",
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 

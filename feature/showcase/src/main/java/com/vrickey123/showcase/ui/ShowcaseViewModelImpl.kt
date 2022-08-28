@@ -24,23 +24,6 @@ class ShowcaseViewModelImpl @Inject constructor(
         get() = mutableState
 
     init {
-        // fetchPaintings()
-        /*flow {
-            emit(metRepository.fetchMetSearchResult(QUERY, true, TAGS))
-        }.map { metSearchResult ->
-            // make a fetchMetObject API call for each objectID in the MetSearchResult
-            metSearchResult.getOrThrow().objectIDs.map { objectID ->
-                // transform a List<Result<MetObject> to a List<MetObject> or throw a caught exception
-                val metObject = metRepository.fetchMetObject(objectID).getOrThrow()
-                metRepository.metDatabase.metObjectDAO().insertMetObject(metObject)
-                metObject
-            }
-        }.onEach {
-            mutableState.emit(reduce(Result.success(it)))
-        }.catch {
-            mutableState.emit(reduce(Result.failure(it)))
-        }.launchIn(viewModelScope)*/
-
         getPaintings()
     }
 

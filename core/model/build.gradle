@@ -29,8 +29,4 @@ android {
     }
 }
 
-dependencies {
-
-    implementation "androidx.core:core-ktx:$core_ktx_version"
-    testImplementation "junit:junit:$junit_version"
-}
+dependencies { }

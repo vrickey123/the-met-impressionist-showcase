@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.network.MetRepository
-import com.vrickey123.network.MetRepositoryImpl.Companion.QUERY
-import com.vrickey123.network.MetRepositoryImpl.Companion.TAGS
 import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
 import com.vrickey123.viewmodel.showcase.ShowcaseUIState

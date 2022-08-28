@@ -71,11 +71,10 @@ class MetRepositoryImpl(
     private suspend fun fetchAndInsertAllMetObjects(objectIDs: List<Int>): Result<List<MetObject>> =
         withContext(dispatcher) {
             return@withContext try {
-                val metObjects = objectIDs.map { objectID ->
-                    val metObject = fetchMetObject(objectID).getOrThrow()
-                    metDatabase.metObjectDAO().insertMetObject(metObject)
-                    metObject
-                }
+                val metObjects: List<MetObject> = objectIDs
+                    .map { objectID -> fetchMetObject(objectID).getOrThrow() }
+                    .filter { it.primaryImageSmall.isNotEmpty() }
+                metDatabase.metObjectDAO().insertAll(metObjects)
                 Result.success(metObjects)
             } catch (e: Throwable) {
                 Result.failure(e)

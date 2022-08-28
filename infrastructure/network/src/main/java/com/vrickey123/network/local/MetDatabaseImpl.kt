@@ -22,7 +22,6 @@ abstract class MetDatabaseImpl : RoomDatabase(), MetDatabase {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             /*val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>()
-                                .setInputData(workDataOf(KEY_FILENAME to PLANT_DATA_FILENAME))
                                 .build()
                             WorkManager.getInstance(context).enqueue(request)*/
                         }

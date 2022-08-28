@@ -37,7 +37,7 @@ class ShowcaseViewModelImpl @Inject constructor(
         flow<Result<MetSearchResult>> { emit(metRepository.search(QUERY, true, TAGS)) }
             .map { metSearchResult ->
                 // make a fetchMetObject API call for each objectID in the MetSearchResult
-                metSearchResult.getOrThrow().objectIDs.map { metRepository.fetchMetObject(it) }
+                metSearchResult.getOrThrow().objectIDs.subList(0, 4).map { metRepository.fetchMetObject(it) }
             }
             .buffer() // creates a buffer of a List<Result<MetObject>> for previous api calls above
             .map { listOfResult ->

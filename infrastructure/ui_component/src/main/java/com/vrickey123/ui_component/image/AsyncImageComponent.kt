@@ -12,7 +12,7 @@ import com.vrickey123.model.ImageData
 @Composable
 fun AsyncImageComponent(
     imageData: ImageData,
-    contentScale: ContentScale = ContentScale.Fit
+    contentScale: ContentScale = ContentScale.Crop
 ) {
     AsyncImage(
         modifier = Modifier.fillMaxWidth(),

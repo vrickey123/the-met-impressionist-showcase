@@ -19,26 +19,23 @@ fun NavGraphBuilder.paintingNavGraph(
     router: Router
 ) {
     navigation(
-        startDestination = "paintingScreen/{id}",
-        route = "paintingGraph/{id}"
+        startDestination = Route.Screen.Painting.route,
+        route = Route.NavGraph.Painting.route
     ) {
         composable(
-            route = "paintingScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.StringType })
+            route = Route.Screen.Painting.route,
+            arguments = listOf(navArgument(Path.ID.key) { type = NavType.StringType })
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
                 router.navHostController.getBackStackEntry(Route.NavGraph.Painting.route)
             }
-            val objectID = navBackStackEntry.arguments?.getString("id")
+            val objectID = navBackStackEntry.arguments?.getString(Path.ID.key)
             val paintingViewModel = hiltViewModel<PaintingViewModelImpl>(parentEntry)
             LaunchedEffect(key1 = objectID) {
                 // Unfortunately, objectID is a runtime value and hiltViewModel injects compile-time
                 if (objectID != null) {
-                    Log.d("paintingNavGraph", "objectID is present")
                     paintingViewModel.objectID = objectID
                     paintingViewModel.getPainting(objectID)
-                } else {
-                    Log.e("paintingNavGraph", "objectID is null")
                 }
             }
             PaintingScreen(paintingViewModel = paintingViewModel, router = router)

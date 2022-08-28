@@ -11,7 +11,7 @@ class RouterImpl : Router {
     }
 
     override fun navigate(route: Route.NavGraph.Painting, objectID: String) {
-        navHostController.navigate(route.route)
+        navHostController.navigate(route.getQualifiedPath(objectID))
     }
 
     override fun popBackStack() = navHostController.popBackStack()

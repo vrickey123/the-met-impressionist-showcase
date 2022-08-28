@@ -24,7 +24,7 @@ fun ShowcaseCard(
     imageData: ImageData,
 ) {
     ElevatedCard(modifier.fillMaxWidth()) {
-        AsyncImageComponent(imageData)
+        AsyncImageComponent(imageData = imageData)
         Column(Modifier.padding(horizontal = 20.dp)) {
             Text(modifier = Modifier.padding(top = 10.dp), text = title)
             Text(modifier = Modifier.padding(vertical = 10.dp), text = artistDisplayName)

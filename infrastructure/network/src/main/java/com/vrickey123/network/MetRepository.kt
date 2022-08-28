@@ -30,9 +30,21 @@ interface MetRepository {
 
     /**
      * Emits [MetObject]'s from the database any time they are updated.
-     * @return [Flow<Result<List<MetObject>>>]
+     * @return [Flow<List<MetObject>>]
      * */
     fun getMetObjects(): Flow<List<MetObject>>
+
+    /**
+     * Emits [MetObject] from the database any time they are updated.
+     * @return [Flow<<MetObject>]
+     * */
+    fun getMetObjectAsFlow(objectID: String): Flow<MetObject>
+
+    /**
+     * One-shot request to the local Met Room Database.
+     * @return [MetObject]
+     * */
+    suspend fun getMetObject(objectID: String): Result<MetObject>
 
     // One day various caching strategies such as e-tags or updatedAfter filters with 304 HTTP
     // Not Modified response codes for REST services could be used in the repository to return

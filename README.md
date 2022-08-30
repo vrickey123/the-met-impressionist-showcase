@@ -27,6 +27,9 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
 ## State Management
 | UI Hierarchy  | SDK  | State  | Result  |
 |---|---|---|---|
-| Screen  | Android ViewModel  | `StateFlow<UIState>`  | `success<T>`, error, loading  |
-| Card  | Compose StateHolder Class  | `StateFlow<T>`  | `Result<T>`  |
-| Component  | Compose StateHolder Class  | `StateFlow<T>`  | `Result<T>`  |
+| Screen  | Android ViewModel  | `StateFlow<UIState>`  | `data<T>`, error: Throwable, loading; Boolean  |
+| Card  | Stateless or Screen-hoisted Compose State Holder Class  | `StateFlow<T>`  | `Result<T>`  |
+| Component  | Stateless or Screen-hoisted Compose State Holder Class  | `StateFlow<T>`  | `Result<T>`  |
+
+## Notes on Real World Usage
+The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s representing a painting to return. From a backend perspective, the response time could be improved, possibly with caching or a new batch-request API. From a client perspective, we might use a Paging API to request 5-10 `MetObject`'s at a time in an infinite-scroll-style UX. Since we cache the results of the first API call in a Room DB, only our first load takes time. For a portfolio sample app that's OK.

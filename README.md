@@ -33,3 +33,9 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
 
 ## Notes on Real World Usage
 [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s representing a painting to return. From a backend perspective, the response time could be improved, possibly with caching or a new batch-request API. From a client perspective, we might use the new [Compose Paging Library](https://developer.android.com/jetpack/androidx/releases/paging) to request 5-10 `MetObject`'s at a time in an infinite-scroll-style UX. Since we cache the results of the first API call in a Room DB, only our first load takes time. For a portfolio sample app that's OK.
+
+
+
+https://user-images.githubusercontent.com/4541078/193988456-c6347802-db6d-41ee-a6fe-87c7fb4222cd.mp4
+
+

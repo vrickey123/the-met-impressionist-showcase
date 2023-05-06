@@ -11,7 +11,6 @@ import com.vrickey123.router.Route
 import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.ui_component.card.ShowcaseCard
-import com.vrickey123.viewmodel.showcase.ShowcaseViewModel
 
 @Composable
 fun ShowcaseScreen(

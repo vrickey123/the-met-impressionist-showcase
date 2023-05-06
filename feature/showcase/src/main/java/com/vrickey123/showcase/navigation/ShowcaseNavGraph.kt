@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 import com.vrickey123.router.Route
 import com.vrickey123.router.Router
 import com.vrickey123.showcase.ui.ShowcaseScreen
-import com.vrickey123.showcase.ui.ShowcaseViewModelImpl
+import com.vrickey123.showcase.ui.ShowcaseViewModel
 
 fun NavGraphBuilder.showcaseNavGraph(
     router: Router
@@ -24,7 +24,7 @@ fun NavGraphBuilder.showcaseNavGraph(
                 router.navHostController.getBackStackEntry(Route.NavGraph.Showcase.route)
             }
             ShowcaseScreen(
-                showcaseViewModel = hiltViewModel<ShowcaseViewModelImpl>(parentEntry),
+                showcaseViewModel = hiltViewModel<ShowcaseViewModel>(parentEntry),
                 router = router
             )
         }

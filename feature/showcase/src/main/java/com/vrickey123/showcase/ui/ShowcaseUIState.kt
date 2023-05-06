@@ -1,4 +1,4 @@
-package com.vrickey123.viewmodel.showcase
+package com.vrickey123.showcase.ui
 
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.state.UIState

@@ -9,7 +9,6 @@ import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.ui_component.card.AboutPaintingCard
 import com.vrickey123.ui_component.image.AsyncImageComponent
-import com.vrickey123.viewmodel.painting.PaintingViewModel
 
 @Composable
 fun PaintingScreen(

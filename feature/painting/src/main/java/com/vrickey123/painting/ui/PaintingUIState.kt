@@ -1,4 +1,4 @@
-package com.vrickey123.viewmodel.painting
+package com.vrickey123.painting.ui
 
 import com.vrickey123.model.api.MetObject
 import com.vrickey123.model.state.UIState

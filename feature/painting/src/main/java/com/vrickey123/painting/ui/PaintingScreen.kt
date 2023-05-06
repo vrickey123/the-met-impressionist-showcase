@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.vrickey123.model.ImageData
+import com.vrickey123.image.data.ImageData
+import com.vrickey123.image.ui.AsyncImageComponent
 import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.ui_component.card.AboutPaintingCard
-import com.vrickey123.ui_component.image.AsyncImageComponent
 
 @Composable
 fun PaintingScreen(

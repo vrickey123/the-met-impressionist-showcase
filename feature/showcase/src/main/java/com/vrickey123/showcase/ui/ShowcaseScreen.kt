@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.vrickey123.model.ImageData
+import com.vrickey123.image.data.ImageData
 import com.vrickey123.router.Route
 import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen

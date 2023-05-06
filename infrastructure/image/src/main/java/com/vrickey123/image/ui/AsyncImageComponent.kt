@@ -1,4 +1,4 @@
-package com.vrickey123.ui_component.image
+package com.vrickey123.image.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -6,9 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
-import coil.imageLoader
 import coil.request.ImageRequest
-import com.vrickey123.model.ImageData
+import com.vrickey123.image.data.ImageData
 
 @Composable
 fun AsyncImageComponent(

@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vrickey123.model.ImageData
-import com.vrickey123.ui_component.image.AsyncImageComponent
+import com.vrickey123.image.data.ImageData
+import com.vrickey123.image.ui.AsyncImageComponent
 
 @Composable
 fun ShowcaseCard(

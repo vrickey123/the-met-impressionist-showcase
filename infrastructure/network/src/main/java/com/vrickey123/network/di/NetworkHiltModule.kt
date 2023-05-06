@@ -1,6 +1,8 @@
 package com.vrickey123.network.di
 
 import android.content.Context
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vrickey123.network.remote.MetNetworkClient
 import com.vrickey123.network.MetRepository
 import com.vrickey123.network.MetRepositoryImpl
@@ -38,9 +40,10 @@ object NetworkHiltModule {
     fun provideMetRepository(
         @IODispatcher dispatcher: CoroutineDispatcher,
         okHttpClient: OkHttpClient,
+        moshi: Moshi,
         @MetDBImpl metDatabase: MetDatabase,
     ): MetRepository {
-        return MetRepositoryImpl(MetNetworkClient.create(okHttpClient), metDatabase, dispatcher)
+        return MetRepositoryImpl(MetNetworkClient.create(okHttpClient, moshi), metDatabase, dispatcher)
     }
 
     @Singleton
@@ -58,6 +61,14 @@ object NetworkHiltModule {
         @ApplicationContext context: Context,
     ): MetDatabase {
         return MetDatabaseImpl.buildDatabase(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory()) // Order matters! Place Kotlin adapter last.
+            .build()
     }
 
     @Provides

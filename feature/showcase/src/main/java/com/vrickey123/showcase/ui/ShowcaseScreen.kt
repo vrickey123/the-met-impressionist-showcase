@@ -27,7 +27,10 @@ fun ShowcaseScreen(
             ) { i ->
                 ShowcaseCard(
                     modifier = Modifier.clickable {
-                        router.navigate(MetRoute.NavGraph.Painting, showcaseUIState.data[i].objectID)
+                        router.navigate(
+                            route = MetRoute.NavGraph.Painting,
+                            runtimeArgValue = showcaseUIState.data[i].objectID.toString()
+                        )
                     },
                     title = showcaseUIState.data[i].title,
                     artistDisplayName = showcaseUIState.data[i].artistDisplayName,

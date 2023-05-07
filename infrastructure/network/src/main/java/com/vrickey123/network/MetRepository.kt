@@ -13,7 +13,8 @@ interface MetRepository {
     val dispatcher: CoroutineDispatcher
 
     /**
-     * One-shot request to The Met search API.
+     * One-shot request to The Met Collection Search API.
+     *
      * @return [MetSearchResult]
      * */
     suspend fun fetchMetSearchResult(
@@ -23,34 +24,79 @@ interface MetRepository {
     ): Result<MetSearchResult>
 
     /**
-     * One-shot request to The Met Object API.
-     * @return [MetObject]
+     * One-shot network request to The Met Collection API using [MetNetworkClient].
+     * Inserts [MetObject] into local [MetDatabase] on successful response.
+     *
+     * @param id: the id of the [MetObject]
+     *
+     * @return [Result]<[MetObject]>
      * */
-    suspend fun fetchMetObject(objectID: Int): Result<MetObject>
+    suspend fun fetchMetObject(id: Int): Result<MetObject>
 
     /**
-     * Emits [MetObject]'s from the database any time they are updated.
-     * @return [Flow<List<MetObject>>]
+     * One-shot network request to The Met Collection API using [MetNetworkClient].
+     * Inserts [MetObject] into local [MetDatabase] on successful response.
+     *
+     * @return [Result]<[MetObject]>
      * */
-    fun getMetObjects(): Flow<List<MetObject>>
+    suspend fun fetchMetObjects(ids: List<Int>): Result<List<MetObject>>
 
     /**
-     * Emits [MetObject] from the database any time they are updated.
-     * @return [Flow<<MetObject>]
+     * Emits [MetObject] any time it is updated in the local [MetDatabase].
+     *
+     * @return [Flow]<[Result]<[MetObject]>>
      * */
-    fun getMetObjectAsFlow(objectID: String): Flow<MetObject>
+    fun getMetObject(id: Int): Flow<Result<MetObject>>
 
     /**
-     * One-shot request to the local Met Room Database.
-     * @return [MetObject]
+     * Emits a [List]<[MetObject]> any time they are updated in the local [MetDatabase].
+     *
+     * @return [Flow]<[Result]<[MetObject]>>
      * */
-    suspend fun getMetObject(objectID: String): Result<MetObject>
+    fun getMetObjects(ids: List<Int>): Flow<Result<List<MetObject>>>
 
-    // One day various caching strategies such as e-tags or updatedAfter filters with 304 HTTP
-    // Not Modified response codes for REST services could be used in the repository to return
-    // remote or local data. Apollo GraphQL has similar niceties. For now, we'll return local
-    // data if it exists without making another network call. The Met API takes about 30 seconds
-    // in its initial request, so we'll seed the database and return from it after the fact. The
-    // Met's impressionist collection doesn't change often, so no big deal as a user...
-    suspend fun getLocalThenRemoteMetObjects(): Result<List<MetObject>>
+    /**
+     * Emits a [List] of all the [MetObject]s in the in the local [MetDatabase] any time they are
+     * updated.
+     *
+     * @return [Flow]<[Result]<[MetObject]>>
+     * */
+    fun getAllMetObjects(): Flow<Result<List<MetObject>>>
+
+    /**
+     * One-shot database request to insert a [List]<[MetObject]> into the local [MetDatabase].
+     *
+     * @return [Result]<[Unit]>
+     * */
+    suspend fun insertMetObject(metObject: MetObject): Result<Unit>
+
+    /**
+     * One-shot database request to insert a [List]<[MetObject]> into the local [MetDatabase].
+     *
+     * @return [Result]<[Unit]>
+     * */
+    suspend fun insertMetObjects(metObjects: List<MetObject>): Result<Unit>
+
+    /**
+     * One-shot database request to delete all [MetObject]s from the local [MetDatabase].
+     *
+     * @return [Result]<[Unit]>
+     * */
+    suspend fun deleteAllMetObjects(): Result<Unit>
+
+    /**
+     * One-shot database request to delete a [List]<[MetObject]> from the local [MetDatabase].
+     *
+     * @return [Result]<[Unit]>
+     * */
+    suspend fun deleteMetObjects(ids: List<Int>): Result<Unit>
+
+    /**
+     * One-shot database request to delete a [MetObject] from the local [MetDatabase].
+     *
+     * @return [Result]<[Unit]>
+     * */
+    suspend fun deleteMetObject(id: Int): Result<Unit>
+
+    suspend fun getLocalThenRemoteMetObjects(query: String, tags: List<String>): Result<Unit>
 }

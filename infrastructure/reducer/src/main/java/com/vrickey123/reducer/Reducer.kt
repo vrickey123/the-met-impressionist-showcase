@@ -23,4 +23,10 @@ interface Reducer<T: UIState, D: Any> {
     val mutableState: MutableStateFlow<T>
 
     fun reduce(result: Result<D>): T
+
+    // Reducer
+    fun emitError(e: Throwable)
+
+    // Reducer
+    suspend fun emitLoading(action: suspend () -> Unit)
 }

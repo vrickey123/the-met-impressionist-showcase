@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class MetObject(
     @PrimaryKey
-    val objectID: String,
+    val objectID: Int,
     val isHighlight: Boolean,
     val isPublicDomain: Boolean,
     val primaryImage: String,

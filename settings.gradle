@@ -14,8 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "The Met Impressionist Showcase"
 include ':app'
-include ':feature:showcase'
-include ':feature:painting'
+include ':feature:met:showcase'
+include ':feature:met:painting'
 include ':infrastructure:viewmodel'
 include ':infrastructure:reducer'
 include ':infrastructure:screen'

@@ -16,8 +16,9 @@
             <option value="$PROJECT_DIR$/core/met/met_api" />
             <option value="$PROJECT_DIR$/core/state" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/painting" />
-            <option value="$PROJECT_DIR$/feature/showcase" />
+            <option value="$PROJECT_DIR$/feature/met" />
+            <option value="$PROJECT_DIR$/feature/met/painting" />
+            <option value="$PROJECT_DIR$/feature/met/showcase" />
             <option value="$PROJECT_DIR$/infrastructure" />
             <option value="$PROJECT_DIR$/infrastructure/image" />
             <option value="$PROJECT_DIR$/infrastructure/met" />

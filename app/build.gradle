@@ -48,8 +48,8 @@ android {
 }
 
 dependencies {
-    implementation project(':feature:showcase')
-    implementation project(':feature:painting')
+    implementation project(':feature:met::showcase')
+    implementation project(':feature:met:painting')
     implementation project(':infrastructure:router')
     implementation project(':infrastructure:met:met_route')
     implementation project(':infrastructure:reducer')

@@ -8,7 +8,6 @@ apply from: "${rootProject.rootDir}/config/config-android-default.gradle"
 apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
 apply from: "${rootProject.rootDir}/config/config-room-annotations.gradle"
 
-
 android {
     namespace 'com.vrickey123.met_api'
 }

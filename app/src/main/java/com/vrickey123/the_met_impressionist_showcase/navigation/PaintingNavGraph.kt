@@ -1,4 +1,4 @@
-package com.vrickey123.painting.navigation
+package com.vrickey123.the_met_impressionist_showcase.navigation
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -8,27 +8,27 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.vrickey123.met_route.MetRoute
 import com.vrickey123.painting.ui.PaintingScreen
 import com.vrickey123.painting.ui.PaintingViewModel
-import com.vrickey123.router.Path
-import com.vrickey123.router.Route
 import com.vrickey123.router.Router
+import com.vrickey123.router.uri.ID
 
 fun NavGraphBuilder.paintingNavGraph(
     router: Router
 ) {
     navigation(
-        startDestination = Route.Screen.Painting.route,
-        route = Route.NavGraph.Painting.route
+        startDestination = MetRoute.Screen.Painting.route,
+        route = MetRoute.NavGraph.Painting.route
     ) {
         composable(
-            route = Route.Screen.Painting.route,
-            arguments = listOf(navArgument(Path.ID.key) { type = NavType.StringType })
+            route = MetRoute.Screen.Painting.route,
+            arguments = listOf(navArgument(ID.key) { type = NavType.StringType })
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
-                router.navHostController.getBackStackEntry(Route.NavGraph.Painting.route)
+                router.navHostController.getBackStackEntry(MetRoute.NavGraph.Painting.route)
             }
-            val objectID = navBackStackEntry.arguments?.getString(Path.ID.key)
+            val objectID = navBackStackEntry.arguments?.getString(ID.key)
             val paintingViewModel = hiltViewModel<PaintingViewModel>(parentEntry)
             LaunchedEffect(key1 = objectID) {
                 // Unfortunately, objectID is a runtime value and hiltViewModel injects compile-time

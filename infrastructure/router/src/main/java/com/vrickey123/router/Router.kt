@@ -1,15 +1,23 @@
 package com.vrickey123.router
 
 import androidx.navigation.NavHostController
+import com.vrickey123.router.uri.Argument
+import com.vrickey123.router.uri.Route
 
-interface Router {
-    var navHostController: NavHostController
+class Router {
+    lateinit var navHostController: NavHostController
 
-    fun navigate(route: Route.NavGraph.Showcase)
+    fun popBackStack(): Boolean = navHostController.popBackStack()
 
-    fun navigate(route: Route.NavGraph.Painting, objectID: String)
+    fun navigate(route: Route) = navHostController.navigate(route.route)
 
-    fun popBackStack(): Boolean
+    fun navigate(route: Route.HasArgument, runtimeArgValue: String) {
+        navHostController.navigate(route.getQualifiedPath(runtimeArgValue))
+    }
+
+    fun navigate(route: Route.HasOptionalArgument, runtimeArgValue: String) {
+        navHostController.navigate(route.getQualifiedPath(runtimeArgValue))
+    }
 
     //fun setNavHostController(navHostController: NavHostController)
 

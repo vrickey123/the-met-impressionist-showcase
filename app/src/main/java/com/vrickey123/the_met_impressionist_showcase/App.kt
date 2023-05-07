@@ -10,7 +10,6 @@ import androidx.compose.ui.res.stringResource
 import com.vrickey123.router.Router
 import com.vrickey123.the_met_impressionist_showcase.ui.theme.TheMetImpressionistShowcaseTheme
 import androidx.navigation.compose.rememberNavController
-import com.vrickey123.showcase.ui.ShowcaseScreen
 import com.vrickey123.the_met_impressionist_showcase.navigation.MetNavHost
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -41,6 +41,7 @@ dependencies {
     implementation project(':infrastructure:network')
     implementation project(':infrastructure:reducer')
     implementation project(':infrastructure:router')
+    implementation project(':infrastructure:met_route')
     implementation project(':infrastructure:screen')
     implementation project(':infrastructure:ui_component')
     implementation project(':infrastructure:viewmodel')

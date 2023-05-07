@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.vrickey123.image.data.ImageData
-import com.vrickey123.router.Route
+import com.vrickey123.met_route.MetRoute
+import com.vrickey123.router.uri.Route
 import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.ui_component.card.ShowcaseCard
@@ -26,7 +27,7 @@ fun ShowcaseScreen(
             ) { i ->
                 ShowcaseCard(
                     modifier = Modifier.clickable {
-                        router.navigate(Route.NavGraph.Painting, showcaseUIState.data[i].objectID)
+                        router.navigate(MetRoute.Painting, showcaseUIState.data[i].objectID)
                     },
                     title = showcaseUIState.data[i].title,
                     artistDisplayName = showcaseUIState.data[i].artistDisplayName,

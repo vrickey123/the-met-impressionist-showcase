@@ -17,8 +17,7 @@ dependencies {
     implementation project(':core:state')
 
     // Store
-    implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation "androidx.work:work-runtime-ktx:$androidx_work_version"
+    // implementation "androidx.work:work-runtime-ktx:$androidx_work_version"
     implementation "androidx.room:room-ktx:$androidx_room_version"
     implementation "androidx.room:room-runtime:$androidx_room_version"
 

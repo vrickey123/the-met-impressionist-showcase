@@ -9,6 +9,4 @@ apply from: "${rootProject.rootDir}/config/config-compose.gradle"
 
 dependencies {
     implementation project(':infrastructure:image') // horizontal dependency
-
-    implementation "androidx.core:core-ktx:$core_ktx_version"
 }

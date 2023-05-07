@@ -8,6 +8,5 @@ apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
 apply from: "${rootProject.rootDir}/config/config-compose.gradle"
 
 dependencies {
-    implementation "androidx.core:core-ktx:$core_ktx_version"
     api "io.coil-kt:coil-compose:$coil_compose_version"
 }

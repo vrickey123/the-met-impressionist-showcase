@@ -10,6 +10,7 @@ apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
 apply from: "${rootProject.rootDir}/config/config-compose.gradle"
 apply from: "${rootProject.rootDir}/config/config-google-hilt.gradle"
 apply from: "${rootProject.rootDir}/config/config-android-navigation.gradle"
+apply from: "${rootProject.rootDir}/config/config-android-viewmodel.gradle"
 
 dependencies {
     implementation project(':infrastructure:met:met_network')
@@ -21,7 +22,4 @@ dependencies {
     implementation project(':infrastructure:image')
     implementation project(':core:met:met_api')
     implementation project(':core:state')
-
-    implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_runtime_ktx_version"
 }

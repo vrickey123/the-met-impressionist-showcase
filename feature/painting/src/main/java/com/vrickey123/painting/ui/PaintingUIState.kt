@@ -1,10 +1,9 @@
 package com.vrickey123.painting.ui
 
-import com.vrickey123.model.api.MetObject
-import com.vrickey123.state.UIState
+import com.vrickey123.met_api.MetObject
 
 data class PaintingUIState(
-    override val data: MetObject = MetObject(
+    override val data: com.vrickey123.met_api.MetObject = com.vrickey123.met_api.MetObject(
         objectID = -1,
         isHighlight = false,
         isPublicDomain = false,

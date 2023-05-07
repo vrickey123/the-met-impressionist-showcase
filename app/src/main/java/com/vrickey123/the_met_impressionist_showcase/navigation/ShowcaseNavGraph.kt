@@ -14,14 +14,14 @@ fun NavGraphBuilder.showcaseNavGraph(
     router: Router
 ) {
     navigation(
-        startDestination = MetRoute.Screen.Showcase.route,
-        route = MetRoute.NavGraph.Showcase.route
+        startDestination = com.vrickey123.met_route.MetRoute.Screen.Showcase.route,
+        route = com.vrickey123.met_route.MetRoute.NavGraph.Showcase.route
     ) {
         composable(
-            route = MetRoute.Screen.Showcase.route,
+            route = com.vrickey123.met_route.MetRoute.Screen.Showcase.route,
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
-                router.navHostController.getBackStackEntry(MetRoute.NavGraph.Showcase.route)
+                router.navHostController.getBackStackEntry(com.vrickey123.met_route.MetRoute.NavGraph.Showcase.route)
             }
             ShowcaseScreen(
                 showcaseViewModel = hiltViewModel<ShowcaseViewModel>(parentEntry),

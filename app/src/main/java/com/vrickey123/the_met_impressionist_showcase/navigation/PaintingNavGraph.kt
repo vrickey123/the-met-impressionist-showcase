@@ -18,15 +18,15 @@ fun NavGraphBuilder.paintingNavGraph(
     router: Router
 ) {
     navigation(
-        startDestination = MetRoute.Screen.Painting.route,
-        route = MetRoute.NavGraph.Painting.route
+        startDestination = com.vrickey123.met_route.MetRoute.Screen.Painting.route,
+        route = com.vrickey123.met_route.MetRoute.NavGraph.Painting.route
     ) {
         composable(
-            route = MetRoute.Screen.Painting.route,
+            route = com.vrickey123.met_route.MetRoute.Screen.Painting.route,
             arguments = listOf(navArgument(ID.key) { type = NavType.StringType })
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
-                router.navHostController.getBackStackEntry(MetRoute.NavGraph.Painting.route)
+                router.navHostController.getBackStackEntry(com.vrickey123.met_route.MetRoute.NavGraph.Painting.route)
             }
             val objectID = navBackStackEntry.arguments?.getString(ID.key)
             val paintingViewModel = hiltViewModel<PaintingViewModel>(parentEntry)

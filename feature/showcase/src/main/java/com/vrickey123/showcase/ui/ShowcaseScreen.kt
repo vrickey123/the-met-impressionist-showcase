@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.vrickey123.image.data.ImageData
 import com.vrickey123.met_route.MetRoute
-import com.vrickey123.router.uri.Route
 import com.vrickey123.router.Router
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.ui_component.card.ShowcaseCard
@@ -28,7 +27,7 @@ fun ShowcaseScreen(
                 ShowcaseCard(
                     modifier = Modifier.clickable {
                         router.navigate(
-                            route = MetRoute.NavGraph.Painting,
+                            route = com.vrickey123.met_route.MetRoute.NavGraph.Painting,
                             runtimeArgValue = showcaseUIState.data[i].objectID.toString()
                         )
                     },

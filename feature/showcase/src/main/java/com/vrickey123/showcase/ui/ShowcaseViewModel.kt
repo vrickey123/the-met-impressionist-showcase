@@ -3,7 +3,7 @@ package com.vrickey123.showcase.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vrickey123.model.api.MetObject
+import com.vrickey123.met_api.MetObject
 import com.vrickey123.network.MetRepository
 import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ShowcaseViewModel @Inject constructor(
     @MetRepoImpl val metRepository: MetRepository
-) : ViewModel(), ScreenViewModel<ShowcaseUIState>, Reducer<ShowcaseUIState, List<MetObject>> {
+) : ViewModel(), ScreenViewModel<ShowcaseUIState>, Reducer<ShowcaseUIState, List<com.vrickey123.met_api.MetObject>> {
 
     companion object {
         val TAG by lazy { ShowcaseViewModel::class.java.simpleName }
@@ -31,7 +31,7 @@ class ShowcaseViewModel @Inject constructor(
         MutableStateFlow(ShowcaseUIState(loading = true))
 
     // Hot Flow of all Result<List<MetObject> from the database. Emits on all changes to DB.
-    private val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
+    private val stream: Flow<Result<List<com.vrickey123.met_api.MetObject>>> = metRepository.getAllMetObjects()
 
     // ScreenViewModel
     // Combines state of our network requests (mutableState) and database stream
@@ -73,7 +73,7 @@ class ShowcaseViewModel @Inject constructor(
     }
 
     // Reducer
-    override fun reduce(oldState: ShowcaseUIState, result: Result<List<MetObject>>): ShowcaseUIState {
+    override fun reduce(oldState: ShowcaseUIState, result: Result<List<com.vrickey123.met_api.MetObject>>): ShowcaseUIState {
         return result.fold(
             onSuccess = { ShowcaseUIState(data = result.getOrDefault(emptyList())) },
             onFailure = { ShowcaseUIState(data = oldState.data, error = result.exceptionOrNull()) }

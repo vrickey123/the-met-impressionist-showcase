@@ -3,7 +3,7 @@ package com.vrickey123.painting.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vrickey123.model.api.MetObject
+import com.vrickey123.met_api.MetObject
 import com.vrickey123.network.MetRepository
 import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PaintingViewModel @Inject constructor(
     @MetRepoImpl val metRepository: MetRepository
-) : ViewModel(), ScreenViewModel<PaintingUIState>, Reducer<PaintingUIState, MetObject> {
+) : ViewModel(), ScreenViewModel<PaintingUIState>, Reducer<PaintingUIState, com.vrickey123.met_api.MetObject> {
 
     companion object {
         val TAG by lazy { PaintingViewModel::class.java.simpleName }
@@ -32,7 +32,7 @@ class PaintingViewModel @Inject constructor(
         MutableStateFlow(PaintingUIState(loading = true))
 
     // Hot Flow of all Result<PaintingUIState> from the database. Emits on all changes to DB.
-    private val stream: Flow<Result<MetObject>> = objectID.flatMapLatest {
+    private val stream: Flow<Result<com.vrickey123.met_api.MetObject>> = objectID.flatMapLatest {
         if (it != null) {
             metRepository.getMetObject(it)
         } else {
@@ -70,7 +70,7 @@ class PaintingViewModel @Inject constructor(
     }
 
     // Reducer
-    override fun reduce(oldState: PaintingUIState, result: Result<MetObject>): PaintingUIState {
+    override fun reduce(oldState: PaintingUIState, result: Result<com.vrickey123.met_api.MetObject>): PaintingUIState {
         return result.fold(
             onSuccess = { PaintingUIState(data = result.getOrThrow()) },
             onFailure = { PaintingUIState(data = oldState.data, error = result.exceptionOrNull()) }

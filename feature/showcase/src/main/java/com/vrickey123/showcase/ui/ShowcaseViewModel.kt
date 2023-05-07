@@ -34,7 +34,7 @@ class ShowcaseViewModel @Inject constructor(
     private val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
 
     // ScreenViewModel
-    // Combines state of our requests (mutableState) and database stream
+    // Combines state of our network requests (mutableState) and database stream
     override val state: StateFlow<ShowcaseUIState> =
         mutableState.combine(stream) { oldState, streamResult ->
             reduce(oldState, streamResult)
@@ -74,11 +74,10 @@ class ShowcaseViewModel @Inject constructor(
 
     // Reducer
     override fun reduce(oldState: ShowcaseUIState, result: Result<List<MetObject>>): ShowcaseUIState {
-        return if (result.isSuccess) {
-            ShowcaseUIState(data = result.getOrDefault(emptyList()))
-        } else {
-            ShowcaseUIState(data = oldState.data, error = result.exceptionOrNull())
-        }
+        return result.fold(
+            onSuccess = { ShowcaseUIState(data = result.getOrDefault(emptyList())) },
+            onFailure = { ShowcaseUIState(data = oldState.data, error = result.exceptionOrNull()) }
+        )
     }
 
     // Reducer

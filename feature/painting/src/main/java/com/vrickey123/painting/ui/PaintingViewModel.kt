@@ -27,6 +27,7 @@ class PaintingViewModel @Inject constructor(
     // The runtime value of an objectID used to make an API call for a Painting
     private val objectID: MutableStateFlow<Int?> = MutableStateFlow(null)
 
+    // Reducer
     override val mutableState: MutableStateFlow<PaintingUIState> =
         MutableStateFlow(PaintingUIState(loading = true))
 
@@ -39,6 +40,8 @@ class PaintingViewModel @Inject constructor(
         }
     }.catch { Result.failure<Throwable>(it) }
 
+    // ScreenViewModel
+    // Combines state of our network requests (mutableState) and database stream
     override val state: StateFlow<PaintingUIState> =
         mutableState.combine(stream) { oldState, streamResult ->
             reduce(oldState, streamResult)
@@ -66,12 +69,12 @@ class PaintingViewModel @Inject constructor(
         }
     }
 
+    // Reducer
     override fun reduce(oldState: PaintingUIState, result: Result<MetObject>): PaintingUIState {
-        return if (result.isSuccess) {
-            PaintingUIState(data = result.getOrThrow())
-        } else {
-            PaintingUIState(data = oldState.data, error = result.exceptionOrNull())
-        }
+        return result.fold(
+            onSuccess = { PaintingUIState(data = result.getOrThrow()) },
+            onFailure = { PaintingUIState(data = oldState.data, error = result.exceptionOrNull()) }
+        )
     }
 
     // Reducer

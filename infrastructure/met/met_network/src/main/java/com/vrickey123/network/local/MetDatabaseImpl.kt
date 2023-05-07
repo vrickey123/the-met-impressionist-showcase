@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vrickey123.met_api.MetObject
 
-@Database(entities = [com.vrickey123.met_api.MetObject::class], version = 1, exportSchema = false)
+@Database(entities = [MetObject::class], version = 1, exportSchema = false)
 abstract class MetDatabaseImpl : RoomDatabase(), MetDatabase {
     abstract override fun metObjectDAO(): MetObjectDAO
 

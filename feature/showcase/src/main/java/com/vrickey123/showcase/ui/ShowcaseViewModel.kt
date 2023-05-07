@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ShowcaseViewModel @Inject constructor(
     @MetRepoImpl val metRepository: MetRepository
-) : ViewModel(), ScreenViewModel<ShowcaseUIState>, Reducer<ShowcaseUIState, List<com.vrickey123.met_api.MetObject>> {
+) : ViewModel(), ScreenViewModel<ShowcaseUIState>, Reducer<ShowcaseUIState, List<MetObject>> {
 
     companion object {
         val TAG by lazy { ShowcaseViewModel::class.java.simpleName }
@@ -31,7 +31,7 @@ class ShowcaseViewModel @Inject constructor(
         MutableStateFlow(ShowcaseUIState(loading = true))
 
     // Hot Flow of all Result<List<MetObject> from the database. Emits on all changes to DB.
-    private val stream: Flow<Result<List<com.vrickey123.met_api.MetObject>>> = metRepository.getAllMetObjects()
+    private val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
 
     // ScreenViewModel
     // Combines state of our network requests (mutableState) and database stream
@@ -73,7 +73,7 @@ class ShowcaseViewModel @Inject constructor(
     }
 
     // Reducer
-    override fun reduce(oldState: ShowcaseUIState, result: Result<List<com.vrickey123.met_api.MetObject>>): ShowcaseUIState {
+    override fun reduce(oldState: ShowcaseUIState, result: Result<List<MetObject>>): ShowcaseUIState {
         return result.fold(
             onSuccess = { ShowcaseUIState(data = result.getOrDefault(emptyList())) },
             onFailure = { ShowcaseUIState(data = oldState.data, error = result.exceptionOrNull()) }

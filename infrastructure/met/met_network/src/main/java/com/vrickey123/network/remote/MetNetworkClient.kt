@@ -48,8 +48,8 @@ interface MetNetworkClient {
         @Query("q") query: String,
         @Query("hasImages") hasImages: Boolean,
         @Query("tags") tags: List<String>
-    ): Response<com.vrickey123.met_api.MetSearchResult>
+    ): Response<MetSearchResult>
 
     @GET("public/collection/v1/objects/{objectID}")
-    suspend fun fetchMetObject(@Path("objectID") objectID: Int): Response<com.vrickey123.met_api.MetObject>
+    suspend fun fetchMetObject(@Path("objectID") objectID: Int): Response<MetObject>
 }

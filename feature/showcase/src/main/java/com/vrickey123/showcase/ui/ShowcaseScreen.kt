@@ -27,7 +27,7 @@ fun ShowcaseScreen(
                 ShowcaseCard(
                     modifier = Modifier.clickable {
                         router.navigate(
-                            route = com.vrickey123.met_route.MetRoute.NavGraph.Painting,
+                            route = MetRoute.NavGraph.Painting,
                             runtimeArgValue = showcaseUIState.data[i].objectID.toString()
                         )
                     },

@@ -10,28 +10,28 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MetObjectDAO {
     @Query("SELECT * FROM metobject")
-    fun loadAllAsFlow(): Flow<List<com.vrickey123.met_api.MetObject>>
+    fun loadAllAsFlow(): Flow<List<MetObject>>
 
     @Query("SELECT * FROM metobject")
-    suspend fun loadAll(): List<com.vrickey123.met_api.MetObject>
+    suspend fun loadAll(): List<MetObject>
 
     @Query("SELECT * FROM metobject WHERE objectID = :id")
-    fun loadByIdAsFlow(id: Int): Flow<com.vrickey123.met_api.MetObject>
+    fun loadByIdAsFlow(id: Int): Flow<MetObject>
 
     @Query("SELECT * FROM metobject WHERE objectID = :id")
-    fun loadByIdsAsFlow(id: List<Int>): Flow<List<com.vrickey123.met_api.MetObject>>
+    fun loadByIdsAsFlow(id: List<Int>): Flow<List<MetObject>>
 
     @Query("SELECT * FROM metobject WHERE objectID = :id")
-    fun loadAsFlow(id: Int): Flow<com.vrickey123.met_api.MetObject>
+    fun loadAsFlow(id: Int): Flow<MetObject>
 
     @Query("SELECT * FROM metobject WHERE objectID = :id")
-    suspend fun load(id: String): com.vrickey123.met_api.MetObject
+    suspend fun load(id: String): MetObject
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(metObjects: List<com.vrickey123.met_api.MetObject>)
+    suspend fun insertList(metObjects: List<MetObject>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(metObject: com.vrickey123.met_api.MetObject)
+    suspend fun insert(metObject: MetObject)
 
     @Query("DELETE FROM metObject")
     suspend fun deleteAll()

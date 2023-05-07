@@ -29,10 +29,10 @@ class MetRepositoryImplTest {
     val mockkRule = MockKRule(this)
 
     @MockK
-    lateinit var metObject: com.vrickey123.met_api.MetObject
+    lateinit var metObject: MetObject
 
     @MockK
-    lateinit var metSearchResult: com.vrickey123.met_api.MetSearchResult
+    lateinit var metSearchResult: MetSearchResult
 
     @MockK
     lateinit var client: MetNetworkClient
@@ -50,14 +50,14 @@ class MetRepositoryImplTest {
     @Test
     fun search_networkResponseSuccess_resultSuccess() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
-        val result: Result<com.vrickey123.met_api.MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun search_networkResponseError_resultFailure() = runTest {
         coEvery { client.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
-        val result: Result<com.vrickey123.met_api.MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
+        val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isFailure)
     }
 
@@ -71,14 +71,14 @@ class MetRepositoryImplTest {
     @Test
     fun fetchMetObject_networkResponseSuccess_resultSuccess() = runTest {
         coEvery { client.fetchMetObject(any()) } returns Response.success(metObject)
-        val result: Result<com.vrickey123.met_api.MetObject> = subject.fetchMetObject(OBJECT_ID)
+        val result: Result<MetObject> = subject.fetchMetObject(OBJECT_ID)
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun fetchMetObject_networkResponseError_resultFailure() = runTest {
         coEvery { client.fetchMetObject(any()) } returns Response.error(404, ResponseBody.create(null, ""))
-        val result: Result<com.vrickey123.met_api.MetObject> = subject.fetchMetObject(OBJECT_ID)
+        val result: Result<MetObject> = subject.fetchMetObject(OBJECT_ID)
         Assert.assertTrue(result.isFailure)
     }
 }

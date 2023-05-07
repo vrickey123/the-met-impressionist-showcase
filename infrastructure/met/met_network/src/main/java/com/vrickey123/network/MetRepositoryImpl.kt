@@ -2,7 +2,6 @@ package com.vrickey123.network
 
 import android.util.Log
 import com.vrickey123.met_api.MetObject
-import com.vrickey123.met_api.MetSearchResult
 import com.vrickey123.network.local.MetDatabase
 import com.vrickey123.network.remote.MetNetworkClient
 import com.vrickey123.network.remote.from
@@ -34,7 +33,7 @@ class MetRepositoryImpl(
         }
     }
 
-    override suspend fun fetchMetObject(id: Int): Result<com.vrickey123.met_api.MetObject> =
+    override suspend fun fetchMetObject(id: Int): Result<MetObject> =
         withContext(dispatcher) {
             Log.d(TAG, "Fetch metObject: $id")
             return@withContext try {
@@ -46,14 +45,14 @@ class MetRepositoryImpl(
             }
         }
 
-    override suspend fun fetchMetObjects(ids: List<Int>): Result<List<com.vrickey123.met_api.MetObject>> =
+    override suspend fun fetchMetObjects(ids: List<Int>): Result<List<MetObject>> =
         withContext(dispatcher) {
             Log.d(TAG, "Fetch metObjects: $ids")
             return@withContext try {
                 // Unfortunately, the API doesn't have a batch collection with one API call that
                 // sends a ids: List<Int> as a query parameter, so instead we make sequential
                 // one-shot API MetObject calls for each id.
-                val metObjects: List<com.vrickey123.met_api.MetObject> = ids.map { objectID ->
+                val metObjects: List<MetObject> = ids.map { objectID ->
                     fetchMetObject(objectID).getOrThrow()
                 }
                     // API hasImages=true sometimes returns MetObject's with empty primary images
@@ -67,7 +66,7 @@ class MetRepositoryImpl(
             }
         }
 
-    override fun getMetObject(id: Int): Flow<Result<com.vrickey123.met_api.MetObject>> {
+    override fun getMetObject(id: Int): Flow<Result<MetObject>> {
         Log.d(TAG, "Get metObject from local storage: $id")
         return metDatabase.metObjectDAO().loadByIdAsFlow(id)
             .map {
@@ -81,7 +80,7 @@ class MetRepositoryImpl(
             }
     }
 
-    override fun getMetObjects(ids: List<Int>): Flow<Result<List<com.vrickey123.met_api.MetObject>>> {
+    override fun getMetObjects(ids: List<Int>): Flow<Result<List<MetObject>>> {
         Log.d(TAG, "Get metObjects from local storage: $ids")
         return metDatabase.metObjectDAO().loadByIdsAsFlow(ids)
             .map {
@@ -95,7 +94,7 @@ class MetRepositoryImpl(
             }
     }
 
-    override fun getAllMetObjects(): Flow<Result<List<com.vrickey123.met_api.MetObject>>> {
+    override fun getAllMetObjects(): Flow<Result<List<MetObject>>> {
         Log.d(TAG, "Getting all met objects from local storage")
         return metDatabase.metObjectDAO().loadAllAsFlow()
             .map {
@@ -109,7 +108,7 @@ class MetRepositoryImpl(
             }
     }
 
-    override suspend fun insertMetObject(metObject: com.vrickey123.met_api.MetObject): Result<Unit> =
+    override suspend fun insertMetObject(metObject: MetObject): Result<Unit> =
         withContext(dispatcher) {
             Log.d(TAG, "Inserting metObject into into local storage: $metObject")
             return@withContext try {
@@ -123,7 +122,7 @@ class MetRepositoryImpl(
         }
 
 
-    override suspend fun insertMetObjects(metObjects: List<com.vrickey123.met_api.MetObject>): Result<Unit> =
+    override suspend fun insertMetObjects(metObjects: List<MetObject>): Result<Unit> =
         withContext(dispatcher) {
             Log.d(TAG, "Inserting metObjects into local storage | size: ${metObjects.size}")
             return@withContext try {

@@ -1,6 +1,6 @@
 package com.vrickey123.viewmodel
 
-import com.vrickey123.model.state.UIState
+import com.vrickey123.state.UIState
 import kotlinx.coroutines.flow.StateFlow
 
 /**

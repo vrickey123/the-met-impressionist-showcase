@@ -1,7 +1,7 @@
 package com.vrickey123.painting.ui
 
 import com.vrickey123.model.api.MetObject
-import com.vrickey123.model.state.UIState
+import com.vrickey123.state.UIState
 
 data class PaintingUIState(
     override val data: MetObject = MetObject(
@@ -24,4 +24,4 @@ data class PaintingUIState(
     ),
     override val loading: Boolean = false,
     override val error: Throwable? = null
-) : UIState
+) : com.vrickey123.state.UIState

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.vrickey123.model.state.UIState
+import com.vrickey123.state.UIState
 import com.vrickey123.viewmodel.ScreenViewModel
 
 @Composable

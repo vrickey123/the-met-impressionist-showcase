@@ -31,26 +31,15 @@ class ShowcaseViewModel @Inject constructor(
         MutableStateFlow(ShowcaseUIState(loading = true))
 
     // Hot Flow of all Result<List<MetObject> from the database. Emits on all changes to DB.
-    private val stream: StateFlow<ShowcaseUIState> = metRepository.getAllMetObjects()
-        .map { reduce(it) }
-        .catch { reduce(Result.failure(it)) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = ShowcaseUIState(loading = true)
-        )
+    private val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
 
     // ScreenViewModel
     // Combines state of our requests (mutableState) and database stream
     override val state: StateFlow<ShowcaseUIState> =
-        mutableState.combine(stream) { mutableState, stream ->
-            // If there is a request loading, return the loading mutableState.
-            // If there is a request error, return the error mutableState with any prior data from
-            // the database stream. (i.e. successfully loaded from DB, then got malformed API response).
-            // Otherwise default to the data stream results.
-            mutableState.copy(data = stream.data)
+        mutableState.combine(stream) { oldState, streamResult ->
+            reduce(oldState, streamResult)
         }.catch {
-            reduce(Result.failure(it))
+            reduce(mutableState.value, Result.failure(it))
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -67,6 +56,14 @@ class ShowcaseViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Makes a one-shot API call to [MetRepository.fetchMetObjects] to fetch latest [MetObject]'s
+     * from the sever.
+     *
+     * Note: for this sample app, this is unused because we already have the latest [MetObject]'s in
+     * local storage. However, this type of architecture would be used if we needed to fetch the
+     * latest content on every app launch.
+     * */
     fun fetchPaintings(ids: List<Int>) = viewModelScope.launch {
         Log.d(TAG, "Fetch showcase")
         emitLoading {
@@ -76,11 +73,11 @@ class ShowcaseViewModel @Inject constructor(
     }
 
     // Reducer
-    override fun reduce(result: Result<List<MetObject>>): ShowcaseUIState {
+    override fun reduce(oldState: ShowcaseUIState, result: Result<List<MetObject>>): ShowcaseUIState {
         return if (result.isSuccess) {
             ShowcaseUIState(data = result.getOrDefault(emptyList()))
         } else {
-            ShowcaseUIState(error = result.exceptionOrNull())
+            ShowcaseUIState(data = oldState.data, error = result.exceptionOrNull())
         }
     }
 

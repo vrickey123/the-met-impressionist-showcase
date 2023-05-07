@@ -31,35 +31,33 @@ class PaintingViewModel @Inject constructor(
         MutableStateFlow(PaintingUIState(loading = true))
 
     // Hot Flow of all Result<PaintingUIState> from the database. Emits on all changes to DB.
-    private val stream: StateFlow<PaintingUIState> = objectID.flatMapLatest {
+    private val stream: Flow<Result<MetObject>> = objectID.flatMapLatest {
         if (it != null) {
             metRepository.getMetObject(it)
         } else {
-            flow { Result.failure<Throwable>(IllegalStateException("null MetObject.id")) }
+            throw IllegalStateException("null MetObject.id")
         }
-    }.map { reduce(it) }
-        .catch { reduce(Result.failure(it)) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = PaintingUIState(loading = true)
-        )
+    }.catch { Result.failure<Throwable>(it) }
 
     override val state: StateFlow<PaintingUIState> =
-        mutableState.combine(stream) { mutableState, stream ->
-            // If there is a request loading, return the loading mutableState.
-            // If there is a request error, return the error mutableState with any prior data from
-            // the database stream. (i.e. successfully loaded from DB, then got malformed API response).
-            // Otherwise default to the data stream results.
-            mutableState.copy(data = stream.data)
+        mutableState.combine(stream) { oldState, streamResult ->
+            reduce(oldState, streamResult)
         }.catch {
-            reduce(Result.failure(it))
+            reduce(mutableState.value, Result.failure(it))
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PaintingUIState(loading = true)
         )
 
+    /**
+     * Makes a one-shot API call to [MetRepository.fetchMetObject] to fetch latest [MetObject]
+     * from the server.
+     *
+     * Note: for this sample app, this is unused because we already have the latest [MetObject] in
+     * local storage. However, this type of architecture would be used if we needed to fetch the
+     * latest content, such as an Article, from the remote using an id.
+     * */
     fun fetchPainting(id: Int) = viewModelScope.launch {
         Log.d(TAG, "Fetch painting: $id")
         emitLoading {
@@ -68,11 +66,11 @@ class PaintingViewModel @Inject constructor(
         }
     }
 
-    override fun reduce(result: Result<MetObject>): PaintingUIState {
+    override fun reduce(oldState: PaintingUIState, result: Result<MetObject>): PaintingUIState {
         return if (result.isSuccess) {
             PaintingUIState(data = result.getOrThrow())
         } else {
-            PaintingUIState(error = result.exceptionOrNull())
+            PaintingUIState(data = oldState.data, error = result.exceptionOrNull())
         }
     }
 

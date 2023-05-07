@@ -34,7 +34,7 @@ fun NavGraphBuilder.paintingNavGraph(
                 // Unfortunately, objectID is a runtime value and hiltViewModel injects compile-time
                 if (objectID != null) {
                     paintingViewModel.setObjectID(objectID.toInt())
-                    paintingViewModel.fetchPainting(objectID.toInt())
+                    //paintingViewModel.fetchPainting(objectID.toInt())
                 }
             }
             PaintingScreen(paintingViewModel = paintingViewModel, router = router)

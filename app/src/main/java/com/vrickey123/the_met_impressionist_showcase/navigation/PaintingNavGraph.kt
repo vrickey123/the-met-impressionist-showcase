@@ -33,7 +33,7 @@ fun NavGraphBuilder.paintingNavGraph(
             LaunchedEffect(key1 = objectID) {
                 // Unfortunately, objectID is a runtime value and hiltViewModel injects compile-time
                 if (objectID != null) {
-                    paintingViewModel.objectID = objectID.toInt()
+                    paintingViewModel.setObjectID(objectID.toInt())
                     paintingViewModel.fetchPainting(objectID.toInt())
                 }
             }

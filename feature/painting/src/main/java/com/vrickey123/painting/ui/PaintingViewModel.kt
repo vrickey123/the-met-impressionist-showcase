@@ -9,10 +9,12 @@ import com.vrickey123.network.di.MetRepoImpl
 import com.vrickey123.reducer.Reducer
 import com.vrickey123.viewmodel.ScreenViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class PaintingViewModel @Inject constructor(
     @MetRepoImpl val metRepository: MetRepository
@@ -22,14 +24,20 @@ class PaintingViewModel @Inject constructor(
         val TAG by lazy { PaintingViewModel::class.java.simpleName }
     }
 
-    var objectID: Int? = null;
+    // The runtime value of an objectID used to make an API call for a Painting
+    private val objectID: MutableStateFlow<Int?> = MutableStateFlow(null)
 
     override val mutableState: MutableStateFlow<PaintingUIState> =
         MutableStateFlow(PaintingUIState(loading = true))
 
     // Hot Flow of all Result<PaintingUIState> from the database. Emits on all changes to DB.
-    private val stream: StateFlow<PaintingUIState> = metRepository.getMetObject(objectID)
-        .map { reduce(it) }
+    private val stream: StateFlow<PaintingUIState> = objectID.flatMapLatest {
+        if (it != null) {
+            metRepository.getMetObject(it)
+        } else {
+            flow { Result.failure<Throwable>(IllegalStateException("null MetObject.id")) }
+        }
+    }.map { reduce(it) }
         .catch { reduce(Result.failure(it)) }
         .stateIn(
             scope = viewModelScope,
@@ -83,4 +91,6 @@ class PaintingViewModel @Inject constructor(
         action.invoke()
         mutableState.update { it.copy(loading = false) }
     }
+
+    fun setObjectID(id: Int) = objectID.update { id }
 }

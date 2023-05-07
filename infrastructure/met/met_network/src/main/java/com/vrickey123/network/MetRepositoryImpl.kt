@@ -41,7 +41,7 @@ class MetRepositoryImpl(
                 Log.d(TAG, "Fetch metObject success")
                 Result.from(metNetworkClient.fetchMetObject(id))
             } catch (e: Throwable) {
-                Log.d(TAG, "Fetch metObject failure: ${e.message}")
+                Log.e(TAG, "Fetch metObject failure: ${e.message}")
                 Result.failure(e)
             }
         }
@@ -62,7 +62,7 @@ class MetRepositoryImpl(
                 Log.d(TAG, "Fetch metObjects success")
                 Result.success(metObjects)
             } catch (e: Throwable) {
-                Log.d(TAG, "Fetch metObjects failure: ${e.message}")
+                Log.e(TAG, "Fetch metObjects failure: ${e.message}")
                 Result.failure(e)
             }
         }
@@ -76,7 +76,7 @@ class MetRepositoryImpl(
             }
             .flowOn(dispatcher)
             .catch {
-                Log.d(TAG, "Get all metObject from local storage failure: ${it.message}")
+                Log.e(TAG, "Get all metObject from local storage failure: ${it.message}")
                 emit(Result.failure(it))
             }
     }
@@ -90,7 +90,7 @@ class MetRepositoryImpl(
             }
             .flowOn(dispatcher)
             .catch {
-                Log.d(TAG, "Get all metObjects from local storage failure: ${it.message}")
+                Log.e(TAG, "Get all metObjects from local storage failure: ${it.message}")
                 emit(Result.failure(it))
             }
     }
@@ -104,7 +104,7 @@ class MetRepositoryImpl(
             }
             .flowOn(dispatcher)
             .catch {
-                Log.d(TAG, "Gett all met objects from local storage: ${it.message}")
+                Log.e(TAG, "Gett all met objects from local storage: ${it.message}")
                 emit(Result.failure(it))
             }
     }
@@ -131,7 +131,7 @@ class MetRepositoryImpl(
                 Log.d(TAG, "Inserting metObjects into local storage success")
                 Result.success(Unit)
             } catch (e: Throwable) {
-                Log.d(TAG, "Inserting metObjects into local storage failure: ${e.message}")
+                Log.e(TAG, "Inserting metObjects into local storage failure: ${e.message}")
                 Result.failure(e)
             }
         }
@@ -143,7 +143,7 @@ class MetRepositoryImpl(
             Log.d(TAG, "Delete all metObjects success")
             Result.success(Unit)
         } catch (e: Throwable) {
-            Log.d(TAG, "Delete all metObjects failure: ${e.message}")
+            Log.e(TAG, "Delete all metObjects failure: ${e.message}")
             Result.failure(e)
         }
     }
@@ -185,7 +185,7 @@ class MetRepositoryImpl(
                     Log.d(TAG, "returning local data from DB")
                     Result.success(Unit)
                 } else {
-                    Log.d(TAG, "fetching all metObjects")
+                    Log.e(TAG, "fetching all metObjects")
                     val metSearchResult = fetchMetSearchResult(query, true, tags)
                     val metObjects = fetchMetObjects(metSearchResult.getOrThrow().objectIDs)
                     metObjects.fold(

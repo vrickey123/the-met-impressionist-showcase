@@ -87,7 +87,7 @@ class PaintingViewModel @Inject constructor(
 
     // Reducer
     override suspend fun emitLoading(action: suspend () -> Unit) {
-        Log.d(TAG, "Emit loading")
+        Log.e(TAG, "Emit loading")
         mutableState.update { it.copy(loading = true) }
         action.invoke()
         mutableState.update { it.copy(loading = false) }

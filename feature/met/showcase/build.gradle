@@ -8,8 +8,8 @@ plugins {
 apply from: "${rootProject.rootDir}/config/config-android-default.gradle"
 apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
 apply from: "${rootProject.rootDir}/config/config-compose.gradle"
-apply from: "${rootProject.rootDir}/config/config-hilt.gradle"
-apply from: "${rootProject.rootDir}/config/config-navigation.gradle"
+apply from: "${rootProject.rootDir}/config/config-google-hilt.gradle"
+apply from: "${rootProject.rootDir}/config/config-android-navigation.gradle"
 
 dependencies {
     implementation project(':infrastructure:met:met_network')

@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply from: "${rootProject.rootDir}/config/config-kotlin-coroutines.gradle"
+
 android {
     compileSdk 33
 
@@ -31,6 +33,4 @@ android {
 
 dependencies {
     implementation project(':core:state')
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 }

@@ -6,7 +6,7 @@ plugins {
 
 apply from: "${rootProject.rootDir}/config/config-android-default.gradle"
 apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
-apply from: "${rootProject.rootDir}/config/config-room-annotations.gradle"
+apply from: "${rootProject.rootDir}/config/config-android-room-annotations.gradle"
 
 dependencies {
     implementation "androidx.room:room-common:$androidx_room_version"

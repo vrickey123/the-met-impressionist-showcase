@@ -10,7 +10,7 @@ import com.vrickey123.router.Router
 fun MetNavHost(router: Router) {
     NavHost(
         navController = router.navHostController,
-        startDestination = MetRoute.Showcase.route
+        startDestination = MetRoute.NavGraph.Showcase.route
     ) {
         showcaseNavGraph(router)
         paintingNavGraph(router)

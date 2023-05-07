@@ -1,0 +1,4 @@
+dependencies {
+    implementation "androidx.navigation:navigation-common-ktx:$androidx_nav_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$androidx_hilt_navigation_compose_version"
+}

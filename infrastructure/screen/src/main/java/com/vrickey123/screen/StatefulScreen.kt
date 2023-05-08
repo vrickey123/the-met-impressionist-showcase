@@ -11,7 +11,9 @@ import com.vrickey123.viewmodel.ScreenViewModel
 fun <T : UIState> StatefulScreen(
     modifier: Modifier = Modifier,
     screenViewModel: ScreenViewModel<T>,
-    success: @Composable (uiState: T) -> Unit,
+    loadingScreenTitle: String? = null,
+    loadingScreenMessage: String? = null,
+    success: @Composable (uiState: T) -> Unit
 ) {
     val uiState by screenViewModel.state.collectAsState()
     when {
@@ -19,7 +21,7 @@ fun <T : UIState> StatefulScreen(
             ErrorScreen(modifier, uiState.error)
         }
         uiState.loading -> {
-            LoadingScreen(modifier)
+            LoadingScreen(modifier, loadingScreenTitle, loadingScreenMessage)
         }
         else -> {
             success(uiState)

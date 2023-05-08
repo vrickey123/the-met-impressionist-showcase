@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading_title">Getting your favorite artists</string>
+    <string name="loading_message">The first download may take a moment…</string>
+</resources>

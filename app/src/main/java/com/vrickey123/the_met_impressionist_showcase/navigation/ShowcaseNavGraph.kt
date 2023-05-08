@@ -1,5 +1,6 @@
 package com.vrickey123.the_met_impressionist_showcase.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -11,21 +12,23 @@ import com.vrickey123.showcase.ui.ShowcaseScreen
 import com.vrickey123.showcase.ui.ShowcaseViewModel
 
 fun NavGraphBuilder.showcaseNavGraph(
-    router: Router
+    router: Router,
+    snackbarHostState: SnackbarHostState
 ) {
     navigation(
-        startDestination = com.vrickey123.met_route.MetRoute.Screen.Showcase.route,
-        route = com.vrickey123.met_route.MetRoute.NavGraph.Showcase.route
+        startDestination = MetRoute.Screen.Showcase.route,
+        route = MetRoute.NavGraph.Showcase.route
     ) {
         composable(
-            route = com.vrickey123.met_route.MetRoute.Screen.Showcase.route,
+            route = MetRoute.Screen.Showcase.route,
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
-                router.navHostController.getBackStackEntry(com.vrickey123.met_route.MetRoute.NavGraph.Showcase.route)
+                router.navHostController.getBackStackEntry(MetRoute.NavGraph.Showcase.route)
             }
             ShowcaseScreen(
                 showcaseViewModel = hiltViewModel<ShowcaseViewModel>(parentEntry),
-                router = router
+                router = router,
+                snackbarHostState = snackbarHostState
             )
         }
     }

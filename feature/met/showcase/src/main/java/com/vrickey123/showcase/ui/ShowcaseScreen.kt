@@ -3,6 +3,7 @@ package com.vrickey123.showcase.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,13 +19,15 @@ import com.vrickey123.ui_component.card.ShowcaseCard
 fun ShowcaseScreen(
     modifier: Modifier = Modifier,
     showcaseViewModel: ShowcaseViewModel,
-    router: Router
+    router: Router,
+    snackbarHostState: SnackbarHostState
 ) {
     StatefulScreen(
         modifier = modifier,
         loadingScreenTitle = stringResource(id = R.string.loading_title),
         loadingScreenMessage = stringResource(id = R.string.loading_message),
-        screenViewModel = showcaseViewModel
+        screenViewModel = showcaseViewModel,
+        snackbarHostState = snackbarHostState
     ) { showcaseUIState ->
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(

@@ -1,5 +1,6 @@
 package com.vrickey123.the_met_impressionist_showcase.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,18 +16,19 @@ import com.vrickey123.router.Router
 import com.vrickey123.router.uri.ID
 
 fun NavGraphBuilder.paintingNavGraph(
-    router: Router
+    router: Router,
+    snackbarHostState: SnackbarHostState
 ) {
     navigation(
-        startDestination = com.vrickey123.met_route.MetRoute.Screen.Painting.route,
-        route = com.vrickey123.met_route.MetRoute.NavGraph.Painting.route
+        startDestination = MetRoute.Screen.Painting.route,
+        route = MetRoute.NavGraph.Painting.route
     ) {
         composable(
-            route = com.vrickey123.met_route.MetRoute.Screen.Painting.route,
+            route = MetRoute.Screen.Painting.route,
             arguments = listOf(navArgument(ID.key) { type = NavType.StringType })
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
-                router.navHostController.getBackStackEntry(com.vrickey123.met_route.MetRoute.NavGraph.Painting.route)
+                router.navHostController.getBackStackEntry(MetRoute.NavGraph.Painting.route)
             }
             val objectID = navBackStackEntry.arguments?.getString(ID.key)
             val paintingViewModel = hiltViewModel<PaintingViewModel>(parentEntry)
@@ -37,7 +39,11 @@ fun NavGraphBuilder.paintingNavGraph(
                     //paintingViewModel.fetchPainting(objectID.toInt())
                 }
             }
-            PaintingScreen(paintingViewModel = paintingViewModel, router = router)
+            PaintingScreen(
+                paintingViewModel = paintingViewModel,
+                router = router,
+                snackbarHostState = snackbarHostState
+            )
         }
     }
 }

@@ -2,6 +2,7 @@ package com.vrickey123.network
 
 import com.vrickey123.met_api.MetObject
 import com.vrickey123.met_api.MetSearchResult
+import com.vrickey123.network.local.MetDatabase
 import com.vrickey123.network.remote.MetNetworkClient
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,7 +19,7 @@ import retrofit2.Response
 
 // https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/README.md
 @OptIn(ExperimentalCoroutinesApi::class)
-class MetRepositoryImplTest {
+class MetRepositoryImplTestWithMockk {
 
     companion object {
         private const val OBJECT_ID = 1
@@ -36,6 +37,9 @@ class MetRepositoryImplTest {
 
     @MockK
     lateinit var client: MetNetworkClient
+
+    @MockK
+    lateinit var metDatabase: MetDatabase
 
     @InjectMockKs
     private lateinit var subject: MetRepositoryImpl

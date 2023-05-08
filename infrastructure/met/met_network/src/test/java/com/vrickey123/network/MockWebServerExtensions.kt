@@ -9,6 +9,9 @@ import java.io.InputStream
 import java.nio.charset.StandardCharsets
 import kotlin.jvm.Throws
 
+/**
+ * Parses a JSON file as an input stream, then sets it as the [MockWebServer]'s [MockResponse].
+ * */
 @Throws(IOException::class)
 internal fun MockWebServer.enqueue(file: String, code: Int) {
     val inputStream: InputStream? = javaClass.classLoader?.getResourceAsStream(file)

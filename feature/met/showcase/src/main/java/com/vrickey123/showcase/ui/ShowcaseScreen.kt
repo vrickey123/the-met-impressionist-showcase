@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.vrickey123.image.data.ImageData
 import com.vrickey123.met_route.MetRoute
 import com.vrickey123.router.Router
+import com.vrickey123.screen.EmptyScreen
 import com.vrickey123.screen.StatefulScreen
 import com.vrickey123.showcase.R
 import com.vrickey123.ui_component.card.ShowcaseCard
@@ -29,25 +30,29 @@ fun ShowcaseScreen(
         screenViewModel = showcaseViewModel,
         snackbarHostState = snackbarHostState
     ) { showcaseUIState ->
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            items(
-                count = showcaseUIState.data.size,
-                key = { index -> showcaseUIState.data[index].objectID },
-            ) { i ->
-                ShowcaseCard(
-                    modifier = Modifier.clickable {
-                        router.navigate(
-                            route = MetRoute.NavGraph.Painting,
-                            runtimeArgValue = showcaseUIState.data[i].objectID.toString()
+        if (showcaseUIState.isEmpty) {
+            EmptyScreen(message = stringResource(id = R.string.empty_message))
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                items(
+                    count = showcaseUIState.data.size,
+                    key = { index -> showcaseUIState.data[index].objectID },
+                ) { i ->
+                    ShowcaseCard(
+                        modifier = Modifier.clickable {
+                            router.navigate(
+                                route = MetRoute.NavGraph.Painting,
+                                runtimeArgValue = showcaseUIState.data[i].objectID.toString()
+                            )
+                        },
+                        title = showcaseUIState.data[i].title,
+                        artistDisplayName = showcaseUIState.data[i].artistDisplayName,
+                        imageData = ImageData(
+                            url = showcaseUIState.data[i].primaryImageSmall,
+                            contentDescription = showcaseUIState.data[i].title
                         )
-                    },
-                    title = showcaseUIState.data[i].title,
-                    artistDisplayName = showcaseUIState.data[i].artistDisplayName,
-                    imageData = ImageData(
-                        url = showcaseUIState.data[i].primaryImageSmall,
-                        contentDescription = showcaseUIState.data[i].title
                     )
-                )
+                }
             }
         }
     }

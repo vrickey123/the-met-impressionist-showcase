@@ -2,6 +2,7 @@ package com.vrickey123.network
 
 import android.util.Log
 import com.vrickey123.met_api.MetObject
+import com.vrickey123.met_api.MetSearchResult
 import com.vrickey123.network.local.MetDatabase
 import com.vrickey123.network.remote.MetNetworkClient
 import com.vrickey123.network.remote.from
@@ -24,7 +25,7 @@ class MetRepositoryImpl(
         query: String,
         hasImages: Boolean,
         tags: List<String>
-    ): Result<com.vrickey123.met_api.MetSearchResult> = withContext(dispatcher) {
+    ): Result<MetSearchResult> = withContext(dispatcher) {
         Log.d(TAG, "Search query: $query")
         return@withContext try {
             Result.from(metNetworkClient.search(query, hasImages, tags))
@@ -52,6 +53,9 @@ class MetRepositoryImpl(
                 // Unfortunately, the API doesn't have a batch collection with one API call that
                 // sends a ids: List<Int> as a query parameter, so instead we make sequential
                 // one-shot API MetObject calls for each id.
+                // The Dispatcher used by the internal OkHTTPClient is set to a default of 64 concurrent
+                // requests, which should fall under the 80 requests per second rate limit of the Met API.
+                // https://stackoverflow.com/questions/52881862/throttle-or-limit-kotlin-coroutine-count
                 val metObjects: List<MetObject> = ids.map { objectID ->
                     fetchMetObject(objectID).getOrThrow()
                 }
@@ -186,11 +190,18 @@ class MetRepositoryImpl(
                 } else {
                     Log.e(TAG, "fetching all metObjects")
                     val metSearchResult = fetchMetSearchResult(query, true, tags)
-                    val metObjects = fetchMetObjects(metSearchResult.getOrThrow().objectIDs)
-                    metObjects.fold(
-                        onSuccess = { Result.success(Unit) },
-                        onFailure = { Result.failure(it) }
-                    )
+                    val objectIDs = metSearchResult.getOrThrow().objectIDs
+                    if (objectIDs.isNullOrEmpty()) {
+                        Log.e(TAG, "fetching all metObjects | empty state")
+                        metDatabase.metObjectDAO().insertList(emptyList())
+                        Result.success(Unit)
+                    } else {
+                        val metObjects = fetchMetObjects(objectIDs)
+                        metObjects.fold(
+                            onSuccess = { Result.success(Unit) },
+                            onFailure = { Result.failure(it) }
+                        )
+                    }
                 }
             } catch (e: Throwable) {
                 Result.failure(e)

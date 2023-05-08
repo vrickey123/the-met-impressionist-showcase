@@ -16,6 +16,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -39,19 +40,21 @@ object NetworkHiltModule {
     @Provides
     fun provideMetRepository(
         @IODispatcher dispatcher: CoroutineDispatcher,
-        okHttpClient: OkHttpClient,
-        moshi: Moshi,
+        retrofit: Retrofit,
         @MetDBImpl metDatabase: MetDatabase,
-    ): MetRepository {
-        return MetRepositoryImpl(MetNetworkClient.create(okHttpClient, moshi), metDatabase, dispatcher)
-    }
+    ): MetRepository = MetRepositoryImpl(
+        MetNetworkClient.create(retrofit),
+        metDatabase,
+        dispatcher
+    )
 
     @Singleton
     @Provides
     fun provideOkHttpClient(
         @ApplicationContext context: Context,
     ): OkHttpClient {
-        return MetNetworkClient.buildOkHttpClient(context)
+        val httpCache = MetNetworkClient.buildHttpCache(context)
+        return MetNetworkClient.buildOkHttpClient(httpCache)
     }
 
     @Singleton
@@ -59,17 +62,18 @@ object NetworkHiltModule {
     @Provides
     fun provideMetDatabase(
         @ApplicationContext context: Context,
-    ): MetDatabase {
-        return MetDatabaseImpl.buildDatabase(context)
-    }
+    ): MetDatabase = MetDatabaseImpl.buildDatabase(context)
 
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory()) // Order matters! Place Kotlin adapter last.
-            .build()
-    }
+    fun provideMoshi(): Moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory()) // Order matters! Place Kotlin adapter last.
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit =
+        MetNetworkClient.buildRetrofit(MetNetworkClient.BASE_URL, okHttpClient, moshi)
 
     @Provides
     @IODispatcher

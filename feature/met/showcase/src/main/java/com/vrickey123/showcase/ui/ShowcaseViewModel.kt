@@ -48,9 +48,9 @@ class ShowcaseViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            Log.d(TAG, "Init: get Local Then Remote Met Objects")
+            Log.d(TAG, "Init: fetch met objects if empty")
             emitLoading {
-                val result = metRepository.getLocalThenRemoteMetObjects(QUERY_IMPRESSIONISM, TAGS)
+                val result = metRepository.fetchMetchObjectsIfEmpty(QUERY_IMPRESSIONISM, TAGS)
                 result.onFailure { emitError(it) }
             }
         }

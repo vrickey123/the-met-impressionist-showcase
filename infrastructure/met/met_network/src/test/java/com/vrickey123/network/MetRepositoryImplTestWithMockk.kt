@@ -173,4 +173,9 @@ class MetRepositoryImplTestWithMockk {
         val result: Result<Unit> = subject.insertMetObjects(ENTRIES)
         Assert.assertTrue(result.isFailure)
     }
+
+    @Test
+    fun getLocalThenRemoteMetObjects_emptyStartingState_resultSuccess() = runTest {
+        coEvery { metDatabase.metObjectDAO().isEmpty() } returns true
+    }
 }

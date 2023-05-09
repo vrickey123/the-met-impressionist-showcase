@@ -180,7 +180,7 @@ class MetRepositoryImpl(
     }
 
     // See code comment in interface MetRepository
-    override suspend fun getLocalThenRemoteMetObjects(query: String, tags: List<String>): Result<Unit> =
+    override suspend fun fetchMetchObjectsIfEmpty(query: String, tags: List<String>): Result<Unit> =
         withContext(dispatcher) {
             Log.d(TAG, "get local or remote data")
             return@withContext try {

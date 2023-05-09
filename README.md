@@ -17,7 +17,7 @@ A `ViewModel` implements the `ScreenViewModel<T: UIState>` and `Reducer<T: UISta
 https://github.com/vrickey123/the-met-impressionist-showcase/blob/7565e573f349c780b7c9f1da89b5c8f45507258d/feature/showcase/src/main/java/com/vrickey123/showcase/ui/ShowcaseViewModelImpl.kt#L15-L44
 
 ### Multi-Module
-Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across `app`, `feature`, `infrastructure`, and `core` modules. The core modules define low-level API and `UIState` data models. The infrastructure modules provide reusable platform tools. User-facing `Screen` destinations are in feature modules and are implemented with a reusable `infrastructure:ui_component` library. The infrastructure and core modules are suitable for Kotlin multiplatform.
+Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across `app`, `feature`, `infrastructure`, and `core` modules. The core modules define low-level API and `UIState` data models. The infrastructure modules provide reusable platform tools. User-facing `Screen` destinations are in feature modules and are implemented with a reusable `infrastructure:ui_component` library. The app module contains the `MainActivity` and coordinates the Compose `NavGraph` between Screens. The infrastructure and core modules are suitable for Kotlin multiplatform.
 
 - app
 - feature

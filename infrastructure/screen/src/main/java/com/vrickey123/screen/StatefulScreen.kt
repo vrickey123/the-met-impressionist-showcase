@@ -32,11 +32,10 @@ fun <T : UIState> StatefulScreen(
             LoadingScreen(modifier, loadingScreenTitle, loadingScreenMessage)
         }
         else -> {
-            // Display a snackbar if the user still has data, but encountered an error.
-            // For example, the user already has data in the cache and made a network request, but
-            // it fails. The UI will render both a snackbar error message and their cached data as
-            // opposed to a fullscreen error. By placing this in StatefulScreen, this error handling
-            // approach is applied to all screens in the app.
+            // Display a snackbar if the user has data in the cache, but encountered an error.
+            // The UI will render both a snackbar error message and their cached data as opposed to
+            // a fullscreen error. By placing this in StatefulScreen, this error handling approach
+            // is applied to all screens in the app.
             Log.d(TAG_STATEFUL_SCREEN, "Success | UIState: $uiState")
             if (uiState.hasPartialData) {
                 LaunchedEffect(key1 = uiState.error.hashCode()) {

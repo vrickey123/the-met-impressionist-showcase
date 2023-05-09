@@ -2,10 +2,8 @@ package com.vrickey123.network
 
 import com.vrickey123.met_api.MetObject
 import com.vrickey123.met_api.MetSearchResult
-import com.vrickey123.network.local.MetDatabase
+import com.vrickey123.network.local.FakeMetDatabase
 import com.vrickey123.network.remote.MetNetworkClient
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -16,7 +14,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import java.net.HttpURLConnection
 
@@ -64,12 +61,6 @@ class MetRepositoryTestWithMockWebServer {
         )
     }
 
-    @get:Rule
-    val mockkRule = MockKRule(this)
-
-    @MockK
-    lateinit var mockMetDatabase: MetDatabase
-
     lateinit var mockWebServer: MockWebServer
 
     lateinit var subject: MetRepositoryImpl
@@ -90,10 +81,11 @@ class MetRepositoryTestWithMockWebServer {
             moshi = MetNetworkClient.buildMoshi()
         )
         val metNetworkClient = MetNetworkClient.create(retrofit)
+        val metDatabase = FakeMetDatabase()
 
         subject = MetRepositoryImpl(
             metNetworkClient = metNetworkClient,
-            metDatabase = mockMetDatabase,
+            metDatabase = metDatabase,
             dispatcher = testDispatcher
         )
     }

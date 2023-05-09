@@ -31,8 +31,8 @@ class PaintingViewModel @Inject constructor(
     override val mutableState: MutableStateFlow<PaintingUIState> =
         MutableStateFlow(PaintingUIState(loading = true))
 
-    // Hot Flow of all Result<PaintingUIState> from the database. Emits on all changes to DB.
-    private val stream: Flow<Result<MetObject>> = objectID.flatMapLatest {
+    // Hot Flow of all Result<MetObject> from the database. Emits on all changes to DB.
+    override val stream: Flow<Result<MetObject>> = objectID.flatMapLatest {
         if (it != null) {
             metRepository.getMetObject(it)
         } else {

@@ -25,13 +25,12 @@ class ShowcaseViewModel @Inject constructor(
     }
 
     // Reducer
-    // Mutable state of all requests initiated from the ViewModel; i.e. fetchMetObject() emits
-    // loading and can emit an error.
+    // Mutable state of all requests initiated from the ViewModel; i.e. success, error, and loading
     override val mutableState: MutableStateFlow<ShowcaseUIState> =
         MutableStateFlow(ShowcaseUIState(loading = true))
 
     // Hot Flow of all Result<List<MetObject> from the database. Emits on all changes to DB.
-    private val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
+    override val stream: Flow<Result<List<MetObject>>> = metRepository.getAllMetObjects()
 
     // ScreenViewModel
     // Combines state of our network requests (mutableState) and database stream

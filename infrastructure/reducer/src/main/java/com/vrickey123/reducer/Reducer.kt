@@ -1,6 +1,7 @@
 package com.vrickey123.reducer
 
 import com.vrickey123.state.UIState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
@@ -16,17 +17,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
  * @param D: The data type to be transformed into a [UIState]. It is encapsulated in [UIState.data]
  * and is non-null when [Result.isSuccess].
  *
- * @property mutableState: A [MutableStateFlow]<[T]> that emits a new [UIState] on a change.
- *
  * */
 interface Reducer<T: UIState, D: Any> {
+
+    /**
+     * Mutable [UIState] of all requests initiated from the ViewModel. Emits a new [UIState] on a
+     * change.
+     * */
     val mutableState: MutableStateFlow<T>
 
+    /**
+     * Hot [Flow] of all [Result]<[D]> emitted from the data store. Emits on all changes to [D] in
+     * the underlying datastore.
+     * */
+    val stream: Flow<Result<D>>
+
+    /**
+     * Create a new [UIState] from the [oldState] and a [Result] of a network or datastore operation.
+     * */
     fun reduce(oldState: T, result: Result<D>): T
 
-    // Reducer
     fun emitError(e: Throwable)
 
-    // Reducer
     suspend fun emitLoading(action: suspend () -> Unit)
 }

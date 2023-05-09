@@ -64,7 +64,7 @@ The `met_network` module contains unit tests for the `MetRepository`. There are 
 ## Notes on Real World Usage
 [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s - the data class representing a painting - to return. 
 
-From a backend perspective, the response time could possibly be improved by (1) one batch collection API call that sends a list of ids as a query parameter, (2) a `MetObjectMetadata` type with a few top-leve fields for the work's image link, title, and artist that could drive a Card UI. These would eliminate the need for 70 sequential one-shot `MetObject` API calls to the `/objects/[objectID]/ endpoint for each id and reduce the time it takes to download the data for a list feed, respectively. 
+From a backend perspective, the response time could possibly be improved by (1) one batch collection API call that sends a list of ids as a query parameter, (2) a `MetObjectMetadata` type with a few top-level fields for the work's image link, title, and artist that could drive a Card UI. These would eliminate the need for 70 sequential one-shot `MetObject` API calls to the `/objects/[objectID]/ endpoint and reduce the time it takes to download the data for a list feed, respectively. 
 
 Since we cache the results of the first API call in a Room SQL database, only the first launch to seed the database takes extra time and the user is informed with a loading screen message. For a portfolio sample app that's OK.
 

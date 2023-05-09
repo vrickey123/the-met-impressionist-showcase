@@ -99,15 +99,15 @@ class MetRepositoryImpl(
     }
 
     override fun getAllMetObjects(): Flow<Result<List<MetObject>>> {
-        Log.d(TAG, "Getting all met objects from local storage")
+        Log.d(TAG, "Getting all metObjects from local storage")
         return metDatabase.metObjectDAO().loadAllAsFlow()
             .map {
-                Log.d(TAG, "Get all met objects from local storage success | size: ${it.size}")
+                Log.d(TAG, "Get all metObjects from local storage success | size: ${it.size}")
                 Result.success(it)
             }
             .flowOn(dispatcher)
             .catch {
-                Log.e(TAG, "Gett all met objects from local storage: ${it.message}")
+                Log.e(TAG, "Get all metObjects from local storage: ${it.message}")
                 emit(Result.failure(it))
             }
     }

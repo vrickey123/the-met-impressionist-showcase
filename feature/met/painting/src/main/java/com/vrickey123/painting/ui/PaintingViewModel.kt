@@ -28,6 +28,7 @@ class PaintingViewModel @Inject constructor(
     private val objectID: MutableStateFlow<Int?> = MutableStateFlow(null)
 
     // Reducer
+    // Mutable state of all requests initiated from the ViewModel; i.e. success, error, and loading
     override val mutableState: MutableStateFlow<PaintingUIState> =
         MutableStateFlow(PaintingUIState(loading = true))
 

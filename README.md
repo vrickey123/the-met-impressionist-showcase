@@ -55,6 +55,12 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
 
 Guidance on Android vs Compose API's found in [State in Compose](https://developer.android.com/jetpack/compose/state) documentation.
 
+## Automated Tests
+The `met_network` module contains unit tests for the `MetRepository`. There are two implementations for example purposes:
+1. `MetRepositoryImplTestWithMockWebServer`
+   - Uses Square's 
+2. `MetRepositoryImplTestWithMockk`
+
 ## Notes on Real World Usage
 [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s - the data class representing a painting - to return. 
 

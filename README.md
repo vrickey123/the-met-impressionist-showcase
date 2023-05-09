@@ -8,14 +8,36 @@ ShowcaseScreen           |  PaintingScreen
 <img src="https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/showcase-screen.png" width="360">  |  <img src="https://github.com/vrickey123/the-met-impressionist-showcase/blob/main/docs/painting-screen.png" width="360">
 
 ## Architecture
-Follows a Redux-style architecture where an API call of `Result<T>` is reduced into a `UIState<T>`, which emits a `StateFlow<UIState>`. A generic `StatefulScreen<T: UIState>` Composable renders the `UIState` into success, loading, or error UI. Advice on Android vs Compose API's found in [State in Compose](https://developer.android.com/jetpack/compose/state) documentation.
+Follows a Redux-style architecture where the `Result<T>` of an API call of is reduced into a `UIState<T>`. A generic Composable `fun <T: UIState> StatefulScreen()` renders the `UIState` into success, loading, or error UI.
 
 https://github.com/vrickey123/the-met-impressionist-showcase/blob/4210d2e654177939b88f728064effaa77fc209d8/infrastructure/screen/src/main/java/com/vrickey123/screen/StatefulScreen.kt#L10-L28
+
+A `ViewModel` implements the `ScreenViewModel<T: UIState>` and `Reducer<T: UIState, Result<D: Any>>` interfaces to define the state management API's that emit an immutable `StateFlow<UIState>` on any change to the underlying data source. 
 
 https://github.com/vrickey123/the-met-impressionist-showcase/blob/7565e573f349c780b7c9f1da89b5c8f45507258d/feature/showcase/src/main/java/com/vrickey123/showcase/ui/ShowcaseViewModelImpl.kt#L15-L44
 
 ### Multi-Module
-Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across app, feature, infrastructure, and core modules. The infrastructure modules for a `network`, `viewmodel`, `reducer`, and `router` set reusable platform tools; and put in front of interfaces to change the implementation. User-facing Screen destinations are implemented in feature modules with a reusable `ui_component` library.
+Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across `app`, `feature`, `infrastructure`, and `core` modules. The core modules define low-level API and `UIState` data models. The infrastructure modules provide reusable platform tools. User-facing `Screen` destinations are in feature modules and are implemented with a reusable `infrastructure:ui_component` library. The infrastructure and core modules are suitable for Kotlin multiplatform.
+
+- app
+- feature
+   - met
+      - showcase
+      - painting
+- infrastructure
+   - image
+   - reducer
+   - router
+   - screen
+   - viewmodel
+   - met
+      - met_network
+      - met_route
+      - met_ui_component
+- core
+   - state
+   - met
+      - met_api
 
 ## UI Hierarchy
 - Material3 Theme
@@ -25,17 +47,19 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
 - Material3 Design Token
 
 ## State Management
-| UI Hierarchy  | SDK  | State  | Result  |
-|---|---|---|---|
-| Screen  | Android ViewModel  | `StateFlow<UIState>`  | `data<T>`, error: Throwable, loading; Boolean  |
-| Card  | Stateless or Screen-hoisted Compose State Holder Class  | `StateFlow<T>`  | `Result<T>`  |
-| Component  | Stateless or Screen-hoisted Compose State Holder Class  | `StateFlow<T>`  | `Result<T>`  |
+| UI Hierarchy  | State Holder  | State  |
+|---|---|---|
+| Screen  | Android [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)  | `StateFlow<UIState>` |
+| Card  | Stateless or Compose [State](https://developer.android.com/reference/kotlin/androidx/compose/runtime/State)  | `StateFlow<T>` |
+| Component  | Stateless or Compose [State](https://developer.android.com/reference/kotlin/androidx/compose/runtime/State)  | `StateFlow<T>` |
+
+Guidance on Android vs Compose API's found in [State in Compose](https://developer.android.com/jetpack/compose/state) documentation.
 
 ## Notes on Real World Usage
-[The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s representing a painting to return. From a backend perspective, the response time could be improved, possibly with caching or a new batch-request API. From a client perspective, we might use the new [Compose Paging Library](https://developer.android.com/jetpack/androidx/releases/paging) to request 5-10 `MetObject`'s at a time in an infinite-scroll-style UX. Since we cache the results of the first API call in a Room DB, only our first load takes time. For a portfolio sample app that's OK.
+[The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s - the data class representing a painting - to return. 
 
+From a backend perspective, the response time could possibly be improved by (1) one batch collection API call that sends a list of ids as a query parameter, (2) a `MetObjectMetadata` type with a few top-leve fields for the work's image link, title, and artist that could drive a Card UI. These would eliminate the need for 70 sequential one-shot `MetObject` API calls to the `/objects/[objectID]/ endpoint for each id and reduce the time it takes to download the data for a list feed, respectively. 
 
+Since we cache the results of the first API call in a Room SQL database, only the first launch to seed the database takes extra time and the user is informed with a loading screen message. For a portfolio sample app that's OK.
 
 https://user-images.githubusercontent.com/4541078/193988456-c6347802-db6d-41ee-a6fe-87c7fb4222cd.mp4
-
-

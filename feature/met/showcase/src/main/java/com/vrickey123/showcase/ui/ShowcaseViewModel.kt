@@ -50,7 +50,7 @@ class ShowcaseViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "Init: fetch met objects if empty")
             emitLoading {
-                val result = metRepository.fetchMetchObjectsIfEmpty(QUERY_IMPRESSIONISM, TAGS)
+                val result = metRepository.prefetchMetObjectsIfEmpty(QUERY_IMPRESSIONISM, TAGS)
                 result.onFailure { emitError(it) }
             }
         }

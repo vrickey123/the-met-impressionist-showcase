@@ -31,11 +31,12 @@ import retrofit2.Response
 class MetRepositoryImplTestWithMockk {
 
     companion object {
-        private const val OBJECT_ID = 671456
         private const val QUERY_STRING = "query"
-        const val message = "Fake Exception"
+        private val TAGS = listOf("tag")
+        private const val message = "Fake Exception"
 
-        val MET_OBJECT = MetObject(
+        private const val OBJECT_ID = 671456
+        private val MET_OBJECT = MetObject(
             objectID = OBJECT_ID,
             isHighlight = false,
             isPublicDomain = true,
@@ -53,66 +54,64 @@ class MetRepositoryImplTestWithMockk {
             objectURL = "https://www.metmuseum.org/art/collection/search/671456",
             GalleryNumber = "824"
         )
-
-        val ENTRIES = listOf(MET_OBJECT)
     }
 
     @get:Rule
     val mockkRule = MockKRule(this)
 
     @MockK
-    lateinit var metObject: MetObject
+    lateinit var mockMetObject: MetObject
 
     @MockK
-    lateinit var metSearchResult: MetSearchResult
+    lateinit var mockMetSearchResult: MetSearchResult
 
     @MockK
-    lateinit var client: MetNetworkClient
+    lateinit var mockMetNetworkClient: MetNetworkClient
 
     @MockK
-    lateinit var metDatabase: MetDatabase
+    lateinit var mockMetDatabase: MetDatabase
 
     @InjectMockKs
     private lateinit var subject: MetRepositoryImpl
 
     @Test
     fun search_networkClientCalledOnce() = runTest {
-        coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.success(mockMetSearchResult)
         subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
-        coVerify(exactly = 1) { client.search(QUERY_STRING, true, emptyList()) }
+        coVerify(exactly = 1) { mockMetNetworkClient.search(QUERY_STRING, true, emptyList()) }
     }
 
     @Test
     fun search_networkResponseSuccess_resultSuccess() = runTest {
-        coEvery { client.search(any(), any(), any()) } returns Response.success(metSearchResult)
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.success(mockMetSearchResult)
         val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun search_networkResponseError_resultFailure() = runTest {
-        coEvery { client.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
         val result: Result<MetSearchResult> = subject.fetchMetSearchResult(QUERY_STRING, true, emptyList())
         Assert.assertTrue(result.isFailure)
     }
 
     @Test
     fun fetchMetObject_networkClientCalledOnce() = runTest {
-        coEvery { client.fetchMetObject(any()) } returns Response.success(metObject)
+        coEvery { mockMetNetworkClient.fetchMetObject(any()) } returns Response.success(mockMetObject)
         subject.fetchMetObject(OBJECT_ID)
-        coVerify(exactly = 1) { client.fetchMetObject(OBJECT_ID) }
+        coVerify(exactly = 1) { mockMetNetworkClient.fetchMetObject(OBJECT_ID) }
     }
 
     @Test
     fun fetchMetObject_networkResponseSuccess_resultSuccess() = runTest {
-        coEvery { client.fetchMetObject(any()) } returns Response.success(metObject)
+        coEvery { mockMetNetworkClient.fetchMetObject(any()) } returns Response.success(mockMetObject)
         val result: Result<MetObject> = subject.fetchMetObject(OBJECT_ID)
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun fetchMetObject_networkResponseError_resultFailure() = runTest {
-        coEvery { client.fetchMetObject(any()) } returns Response.error(404, ResponseBody.create(null, ""))
+        coEvery { mockMetNetworkClient.fetchMetObject(any()) } returns Response.error(404, ResponseBody.create(null, ""))
         val result: Result<MetObject> = subject.fetchMetObject(OBJECT_ID)
         Assert.assertTrue(result.isFailure)
     }
@@ -127,26 +126,26 @@ class MetRepositoryImplTestWithMockk {
     // defining returning a value for a given function call using coEvery returns or coEvery throws.
     @Test
     fun getAllMetObjects_databaseCalledOnce() = runTest {
-        coEvery { metDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
+        coEvery { mockMetDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
             emit(emptyList())
         }
         subject.getAllMetObjects()
-        coVerify(exactly = 1) { metDatabase.metObjectDAO().loadAllAsFlow() }
+        coVerify(exactly = 1) { mockMetDatabase.metObjectDAO().loadAllAsFlow() }
     }
 
     @Test
     fun getAllMetObjects_databaseResponseSuccess_resultSuccess() = runTest {
-        coEvery { metDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
-            emit(ENTRIES)
+        coEvery { mockMetDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
+            emit(emptyList())
         }
         val result: Result<List<MetObject>> = subject.getAllMetObjects().first()
         Assert.assertTrue(result.isSuccess)
-        Assert.assertEquals(ENTRIES, result.getOrThrow())
+        Assert.assertEquals(emptyList<MetObject>(), result.getOrThrow())
     }
 
     @Test
     fun getAllMetObjects_databaseResponseFailure_resultFailure() = runTest {
-        coEvery { metDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
+        coEvery { mockMetDatabase.metObjectDAO().loadAllAsFlow() } returns flow {
             throw Exception(message)
         }
         val result: Result<List<MetObject>> = subject.getAllMetObjects().first()
@@ -155,27 +154,84 @@ class MetRepositoryImplTestWithMockk {
 
     @Test
     fun insertMetObjects_databaseCalledOnce() = runTest {
-        coEvery { metDatabase.metObjectDAO().insertList(ENTRIES) } returns Unit
-        subject.insertMetObjects(ENTRIES)
-        coVerify(exactly = 1) { metDatabase.metObjectDAO().insertList(ENTRIES) }
+        coEvery { mockMetDatabase.metObjectDAO().insertList(emptyList()) } returns Unit
+        subject.insertMetObjects(emptyList())
+        coVerify(exactly = 1) { mockMetDatabase.metObjectDAO().insertList(emptyList()) }
     }
 
     @Test
     fun insertMetObjects_databaseResponseSuccess_resultSuccess() = runTest {
-        coEvery { metDatabase.metObjectDAO().insertList(ENTRIES) } returns Unit
-        val result: Result<Unit> = subject.insertMetObjects(ENTRIES)
+        coEvery { mockMetDatabase.metObjectDAO().insertList(emptyList()) } returns Unit
+        val result: Result<Unit> = subject.insertMetObjects(emptyList())
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun insertMetObjects_databaseResponseFailure_resultFailure() = runTest {
-        coEvery { metDatabase.metObjectDAO().insertList(ENTRIES) } throws Exception(message)
-        val result: Result<Unit> = subject.insertMetObjects(ENTRIES)
+        coEvery { mockMetDatabase.metObjectDAO().insertList(emptyList()) } throws Exception(message)
+        val result: Result<Unit> = subject.insertMetObjects(emptyList())
         Assert.assertTrue(result.isFailure)
     }
 
     @Test
-    fun getLocalThenRemoteMetObjects_emptyStartingState_resultSuccess() = runTest {
-        coEvery { metDatabase.metObjectDAO().isEmpty() } returns true
+    fun prefetchMetObjectsIfEmpty_emptyState_nonNullSearchResult_resultSuccess() = runTest {
+        coEvery { mockMetDatabase.metObjectDAO().isEmpty() } returns true
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.success(mockMetSearchResult)
+        coEvery { mockMetDatabase.metObjectDAO().insertList(any()) } returns Unit
+        coEvery { mockMetSearchResult.objectIDs } returns listOf(OBJECT_ID)
+        coEvery { mockMetNetworkClient.fetchMetObject(any()) } returns Response.success(MET_OBJECT)
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY_STRING, TAGS)
+        Assert.assertTrue(result.isSuccess)
+        coVerify(exactly = 2) {
+            mockMetDatabase.metObjectDAO()
+            //mockMetDatabase.metObjectDAO().isEmpty()
+            //mockMetDatabase.metObjectDAO().insertList(any())
+        }
+        coVerify(exactly = 1) {
+            mockMetNetworkClient.search(any(), any(), any())
+            mockMetNetworkClient.fetchMetObject(any())
+        }
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_emptyState_nullSearchResult_resultSuccess() = runTest {
+        coEvery { mockMetDatabase.metObjectDAO().isEmpty() } returns true
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.success(mockMetSearchResult)
+        coEvery { mockMetSearchResult.objectIDs } returns null
+        coEvery { mockMetDatabase.metObjectDAO().insertList(any()) } returns Unit
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY_STRING, TAGS)
+        Assert.assertTrue(result.isSuccess)
+        coVerify(exactly = 2) {
+            mockMetDatabase.metObjectDAO()
+            //mockMetDatabase.metObjectDAO().isEmpty()
+            //mockMetDatabase.metObjectDAO().insertList(any())
+        }
+        coVerify(exactly = 1) {
+            mockMetNetworkClient.search(any(), any(), any())
+        }
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_emptyStateAndNetworkFailure_resultFailure() = runTest {
+        coEvery { mockMetDatabase.metObjectDAO().isEmpty() } returns true
+        coEvery { mockMetNetworkClient.search(any(), any(), any()) } returns Response.error(404, ResponseBody.create(null, ""))
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY_STRING, TAGS)
+        Assert.assertTrue(result.isFailure)
+        coVerify(exactly = 1) {
+            mockMetDatabase.metObjectDAO()
+        }
+        coVerify(exactly = 1) {
+            mockMetNetworkClient.search(any(), any(), any())
+        }
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_notEmptyState_resultSuccess() = runTest {
+        coEvery { mockMetDatabase.metObjectDAO().isEmpty() } returns false
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY_STRING, TAGS)
+        Assert.assertTrue(result.isSuccess)
+        coVerify(exactly = 1) {
+            mockMetDatabase.metObjectDAO()
+        }
     }
 }

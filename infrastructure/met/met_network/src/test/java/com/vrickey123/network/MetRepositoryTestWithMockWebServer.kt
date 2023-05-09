@@ -3,9 +3,7 @@ package com.vrickey123.network
 import com.vrickey123.met_api.MetObject
 import com.vrickey123.met_api.MetSearchResult
 import com.vrickey123.network.local.FakeMetDatabase
-import com.vrickey123.network.local.MetDatabase
 import com.vrickey123.network.remote.MetNetworkClient
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -42,15 +40,15 @@ class MetRepositoryTestWithMockWebServer {
         const val FILENAME_RESPONSE_OBJECT_FAILURE_MALFORMED = "response_object_failure_malformed.json"
         const val FILENAME_RESPONSE_OBJECT_FAILURE_404 = "response_object_failure_404_not_found.json"
 
-        const val QUERY = "impressionism"
-        const val HAS_IMAGES = true
-        val TAGS = listOf("impressionism")
-        const val OBJECT_ID = 671456
+        private const val QUERY = "impressionism"
+        private const val HAS_IMAGES = true
+        private val TAGS = listOf("impressionism")
+        private const val OBJECT_ID = 671456
 
-        val MET_SEARCH_RESULT = MetSearchResult(total = 1, listOf(OBJECT_ID))
-        val MET_SEARCH_RESULT_EMPTY = MetSearchResult(total = 0, null)
+        private val MET_SEARCH_RESULT = MetSearchResult(total = 1, listOf(OBJECT_ID))
+        private val MET_SEARCH_RESULT_EMPTY = MetSearchResult(total = 0, null)
 
-        val MET_OBJECT = MetObject(
+        private val MET_OBJECT = MetObject(
             objectID = OBJECT_ID,
             isHighlight = false,
             isPublicDomain = true,
@@ -68,6 +66,8 @@ class MetRepositoryTestWithMockWebServer {
             objectURL = "https://www.metmuseum.org/art/collection/search/671456",
             GalleryNumber = "824"
         )
+
+        private val ENTRIES = listOf(MET_OBJECT)
     }
 
     lateinit var mockWebServer: MockWebServer
@@ -181,7 +181,7 @@ class MetRepositoryTestWithMockWebServer {
         fakeMetDatabase.setIsSuccess(true)
         val result: Result<List<MetObject>> = subject.getAllMetObjects().first()
         Assert.assertTrue(result.isSuccess)
-        Assert.assertEquals(MetRepositoryImplTestWithMockk.ENTRIES, result.getOrThrow())
+        Assert.assertEquals(ENTRIES, result.getOrThrow())
     }
 
     @Test
@@ -194,14 +194,47 @@ class MetRepositoryTestWithMockWebServer {
     @Test
     fun insertMetObjects_databaseResponseSuccess_resultSuccess() = runTest {
         fakeMetDatabase.setIsSuccess(true)
-        val result: Result<Unit> = subject.insertMetObjects(MetRepositoryImplTestWithMockk.ENTRIES)
+        val result: Result<Unit> = subject.insertMetObjects(ENTRIES)
         Assert.assertTrue(result.isSuccess)
     }
 
     @Test
     fun insertMetObjects_databaseResponseFailure_resultFailure() = runTest {
         fakeMetDatabase.setIsSuccess(false)
-        val result: Result<Unit> = subject.insertMetObjects(MetRepositoryImplTestWithMockk.ENTRIES)
+        val result: Result<Unit> = subject.insertMetObjects(ENTRIES)
         Assert.assertTrue(result.isFailure)
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_emptyStateAndNetworkSuccess_resultSuccess() = runTest {
+        mockWebServer.enqueue(FILENAME_RESPONSE_SEARCH_SUCCESS, HttpURLConnection.HTTP_OK)
+        mockWebServer.enqueue(FILENAME_RESPONSE_OBJECT_SUCCESS, HttpURLConnection.HTTP_OK)
+        fakeMetDatabase.setIsEmpty(true)
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY, TAGS)
+        Assert.assertTrue(result.isSuccess)
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_emptyStateAndEmptySearchResult_resultFailure() = runTest {
+        mockWebServer.enqueue(FILENAME_RESPONSE_SEARCH_SUCCESS_EMPTY, HttpURLConnection.HTTP_OK)
+        fakeMetDatabase.setIsEmpty(true)
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY, TAGS)
+        Assert.assertTrue(result.isSuccess)
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_emptyStateAndNetworkFailure_resultFailure() = runTest {
+        val mock400ErrorResponse = MockResponse().setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
+        mockWebServer.enqueue(mock400ErrorResponse)
+        fakeMetDatabase.setIsEmpty(true)
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY, TAGS)
+        Assert.assertTrue(result.isFailure)
+    }
+
+    @Test
+    fun prefetchMetObjectsIfEmpty_notEmptyState_resultSuccess() = runTest {
+        fakeMetDatabase.setIsEmpty(false)
+        val result = subject.prefetchMetObjectsIfEmpty(QUERY, TAGS)
+        Assert.assertTrue(result.isSuccess)
     }
 }

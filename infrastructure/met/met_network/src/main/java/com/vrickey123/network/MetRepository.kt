@@ -109,9 +109,8 @@ interface MetRepository {
      * server was different from the data that exists in the client-side cache.
      *
      * In this case where we're working with largely static data in an academic resource, this
-     * function makes a network API call to seed our database on the first launch, then just
-     * returns local data on disk so that we're not making unnecessary - and slow - network API
-     * calls every time the user opens the app.
+     * function makes a network API call to seed our database on the first launch so that we're not
+     * making unnecessary - and slow - network API calls every time the user opens the app.
      * */
-    suspend fun fetchMetchObjectsIfEmpty(query: String, tags: List<String>): Result<Unit>
+    suspend fun prefetchMetObjectsIfEmpty(query: String, tags: List<String>): Result<Unit>
 }

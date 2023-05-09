@@ -32,7 +32,7 @@ class FakeMetObjectDao: MetObjectDAO {
     }
 
     var isSuccess = true
-    var hasEntries = true
+    var isEmpty = true
 
     @Throws(Exception::class)
     override fun loadAllAsFlow(): Flow<List<MetObject>> = flow {
@@ -79,5 +79,5 @@ class FakeMetObjectDao: MetObjectDAO {
         if (isSuccess) return Unit else throw Exception(message)
     }
 
-    override suspend fun isEmpty(): Boolean = hasEntries
+    override suspend fun isEmpty(): Boolean = isEmpty
 }

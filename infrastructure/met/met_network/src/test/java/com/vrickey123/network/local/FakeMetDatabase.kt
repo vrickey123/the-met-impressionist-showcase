@@ -10,7 +10,7 @@ class FakeMetDatabase: MetDatabase {
         fakeMetObjectDao.isSuccess = isSuccess
     }
 
-    fun setHasEntries(hasEntries: Boolean) {
-        fakeMetObjectDao.hasEntries = hasEntries
+    fun setIsEmpty(isEmpty: Boolean) {
+        fakeMetObjectDao.isEmpty = isEmpty
     }
 }

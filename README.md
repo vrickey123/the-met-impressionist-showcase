@@ -36,7 +36,7 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
       - [met_route](infrastructure/met/met_route): the `Route` implementation for this app: i.e., the top-level [MetRoute](infrastructure/met/met_route/src/main/java/com/vrickey123/met_route/MetRoute.kt) Screen destinations for `MetRoute.Showcase` and `MetRoute.Painting`
       - [met_ui_component](infrastructure/met/met_ui_component): the "Met UI Component library" that can be used across feature models
 - **core**
-   - **[state](core/state)**: the [UIState](core/state/src/main/java/com/vrickey123/state/UIState.kt) that models `DataLoaded`, `Loading`, and `Error` to render UI
+   - **[state](core/state)**: the [UIState](core/state/src/main/java/com/vrickey123/state/UIState.kt) model for `data` loaded, `loading`, and `error` to render UI
    - met
       - [met_api](core/met/met_api): The Met Collection API data models used in this app
 

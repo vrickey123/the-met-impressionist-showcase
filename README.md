@@ -21,7 +21,7 @@ Following the [Android Guide to Modularization](https://developer.android.com/to
 
 - **[app](app)**
    - [MainActivity](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/MainActivity.kt)
-   - [App.kt](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/App.kt): the App Composable wraps the `Scaffold` to swap out Screen Composables when navigating between destinations, set the Toolbar, Bottom Nav, etc.
+   - [App.kt](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/App.kt): the App Composable wraps the `Scaffold` to swap out Screen Composables when navigating between destinations, set the toolbar, bottom Nav, etc.
    - [navigation](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/navigation): the Compose `NavHost` implementation for this app
 - **feature**
    - met

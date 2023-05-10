@@ -5,10 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
- * The [Reducer] is used to take a [Result]<[D]> of [Any] type, such as the Result of an API call
- * that returns a data class, and transform it into a [UIState].
- *
- * The transformation is implemented in the [Reducer.reduce] function, which emits a new [UIState].
+ * The [Reducer] transforms an old [UIState] and [Result]<[D: Any]>, such as the Result of an API
+ * call that returns a data class, and into a new [UIState].
  *
  * Project Note: this interface could be implemented in a concrete `class FooBarReducer` or simply
  * in a ViewModel (as done in this project).

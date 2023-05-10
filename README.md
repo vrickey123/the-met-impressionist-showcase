@@ -19,25 +19,26 @@ https://github.com/vrickey123/the-met-impressionist-showcase/blob/7565e573f349c7
 ### Multi-Module
 Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across `app`, `feature`, `infrastructure`, and `core` modules. The core modules define low-level API and `UIState` data models. The infrastructure modules provide reusable platform tools. User-facing `Screen` destinations are in feature modules and are implemented with a reusable `infrastructure:ui_component` library. The app module contains the `MainActivity` and coordinates the Compose `NavGraph` between Screens. The infrastructure and core modules are suitable for Kotlin multiplatform.
 
-- app
-- feature
+- **[app](app)**
+   - [navigation](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/navigation): the Compose `NavHost` implementation for this app
+- **feature**
    - met
-      - showcase
-      - painting
-- infrastructure
-   - image
-   - reducer
-   - router
-   - screen
-   - viewmodel
+      - [showcase](feature/met/showcase): the [ShowcaseScreen](feature/met/showcase/src/main/java/com/vrickey123/showcase/ui/ShowcaseScreen.kt), [ShowcaseUIState](feature/met/showcase/src/main/java/com/vrickey123/showcase/ui/ShowcaseUIState.kt), and [ShowcaseViewModel](feature/met/showcase/src/main/java/com/vrickey123/showcase/ui/ShowcaseViewModel.kt)
+      - [painting](feature/met/painting): the [PaintingScreen](feature/met/painting/src/main/java/com/vrickey123/painting/ui/PaintingScreen.kt), [PaintingUIState](feature/met/painting/src/main/java/com/vrickey123/painting/ui/PaintingUIState.kt), and [PaintingViewModel](feature/met/painting/src/main/java/com/vrickey123/painting/ui/PaintingViewModel.kt)
+- **infrastructure**
+   - **[image](infrastructure/image)**: an [AsyncImageComponent(url)](infrastructure/image/src/main/java/com/vrickey123/image/ui/AsyncImageComponent.kt) with a [Coil Image](https://coil-kt.github.io/coil/) implementation
+   - **[reducer](infrastructure/reducer)**: a [Reducer](infrastructure/reducer/src/main/java/com/vrickey123/reducer/Reducer.kt) that transforms an old `UIState` and `Result<D: Any>` into a new [UIState](core/state/src/main/java/com/vrickey123/state/UIState.kt)
+   - **[router](infrastructure/router)**: a [Router](infrastructure/router/src/main/java/com/vrickey123/router/Router.kt) that implements navigation between Compose Screen [Route](infrastructure/router/src/main/java/com/vrickey123/router/uri/Route.kt)'s
+   - **[screen](infrastructure/screen)**: generic Screen Composables for `LoadingScreen()`, `ErrorScreen()`, `EmptyScreen()`, and `<T: UIState> StatefulScreen()` to render UI based on a `UIState`
+   - **[viewmodel](infrastructure/viewmodel)**: a `ScreenViewModel` interface that is implemented to render the `StateFlow<T: UIState>` in a `<T: UIState> StatefulScreen()`
    - met
-      - met_network
-      - met_route
-      - met_ui_component
-- core
-   - state
+      - [met_network](infrastructure/met/met_network): the [MetRepository](infrastructure/met/met_network/src/main/java/com/vrickey123/network/MetRepository.kt) implementation to fetch remote data from The Met Collection API or return local data from the database.
+      - [met_route](infrastructure/met/met_route): the `Route` implementation for this app: i.e., the top-level [MetRoute](infrastructure/met/met_route/src/main/java/com/vrickey123/met_route/MetRoute.kt) Screen destinations for `MetRoute.Showcase` and `MetRoute.Painting`
+      - [met_ui_component](infrastructure/met/met_ui_component): the "Met UI Component library" that can be used across feature models
+- **core**
+   - **[state](core/state)**: the [UIState](core/state/src/main/java/com/vrickey123/state/UIState.kt) that models `DataLoaded`, `Loading`, and `Error` to render UI
    - met
-      - met_api
+      - [met_api](core/met/met_api): The Met Collection API data models used in this app
 
 ## UI Hierarchy
 - Material3 Theme
@@ -57,9 +58,10 @@ Guidance on Android vs Compose API's found in [State in Compose](https://develop
 
 ## Automated Tests
 The `met_network` module contains unit tests for the `MetRepository`. There are two implementations for example purposes:
-1. `MetRepositoryImplTestWithMockWebServer`
-   - Uses Square's 
-2. `MetRepositoryImplTestWithMockk`
+1. [MetRepositoryImplTestWithMockWebServer](infrastructure/met/met_network/src/test/java/com/vrickey123/network/MetRepositoryTestWithMockWebServer.kt)
+   - A [MetRepositoryImpl](infrastructure/met/met_network/src/main/java/com/vrickey123/network/MetRepositoryImpl.kt) test that uses Square's [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) in a [MetNetworkClient](infrastructure/met/met_network/src/main/java/com/vrickey123/network/remote/MetNetworkClient.kt) to drive test network responses with JSON files in the [resources](infrastructure/met/met_network/src/test/resources) folder. A [FakeMetDatabase](infrastructure/met/met_network/src/test/java/com/vrickey123/network/local/FakeMetObjectDao.kt) instance can set `FakeMetDatabase.setIsSuccess` to return a mocked successful or failure response.
+2. [MetRepositoryImplTestWithMockk](infrastructure/met/met_network/src/test/java/com/vrickey123/network/MetRepositoryImplTestWithMockk.kt)
+   - A [MetRepositoryImpl] test that uses [Mockk](https://mockk.io/) to mock [MetNetworkClient](infrastructure/met/met_network/src/main/java/com/vrickey123/network/remote/MetNetworkClient.kt) and [MetDatabase](infrastructure/met/met_network/src/main/java/com/vrickey123/network/local/MetDatabase.kt) instances and their functions.
 
 ## Notes on Real World Usage
 [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) is more of an academic resource than it is a production-ready API suitable for news feeds at scale. It can take 30-45 seconds for a list of our 70-ish `MetObject`'s - the data class representing a painting - to return. 

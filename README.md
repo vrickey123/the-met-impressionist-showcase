@@ -20,6 +20,8 @@ https://github.com/vrickey123/the-met-impressionist-showcase/blob/7565e573f349c7
 Following the [Android Guide to Modularization](https://developer.android.com/topic/modularization), the implementation is modularized across `app`, `feature`, `infrastructure`, and `core` modules. The core modules define low-level API and `UIState` data models. The infrastructure modules provide reusable platform tools. User-facing `Screen` destinations are in feature modules and are implemented with a reusable `infrastructure:ui_component` library. The app module contains the `MainActivity` and coordinates the Compose `NavGraph` between Screens. The infrastructure and core modules are suitable for Kotlin multiplatform.
 
 - **[app](app)**
+   - [MainActivity](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/MainActivity.kt)
+   - [App.kt](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/App.kt): the App Composable wraps the `Scaffold` to swap out Screen Composables when navigating between destinations, set the Toolbar, Bottom Nav, etc.
    - [navigation](app/src/main/java/com/vrickey123/the_met_impressionist_showcase/navigation): the Compose `NavHost` implementation for this app
 - **feature**
    - met

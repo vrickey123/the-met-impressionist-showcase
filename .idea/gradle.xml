@@ -5,23 +5,29 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/model" />
+            <option value="$PROJECT_DIR$/core/met" />
+            <option value="$PROJECT_DIR$/core/met/met_api" />
+            <option value="$PROJECT_DIR$/core/state" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/painting" />
-            <option value="$PROJECT_DIR$/feature/showcase" />
+            <option value="$PROJECT_DIR$/feature/met" />
+            <option value="$PROJECT_DIR$/feature/met/painting" />
+            <option value="$PROJECT_DIR$/feature/met/showcase" />
             <option value="$PROJECT_DIR$/infrastructure" />
-            <option value="$PROJECT_DIR$/infrastructure/network" />
+            <option value="$PROJECT_DIR$/infrastructure/image" />
+            <option value="$PROJECT_DIR$/infrastructure/met" />
+            <option value="$PROJECT_DIR$/infrastructure/met/met_network" />
+            <option value="$PROJECT_DIR$/infrastructure/met/met_route" />
+            <option value="$PROJECT_DIR$/infrastructure/met/met_ui_component" />
             <option value="$PROJECT_DIR$/infrastructure/reducer" />
             <option value="$PROJECT_DIR$/infrastructure/router" />
             <option value="$PROJECT_DIR$/infrastructure/screen" />
-            <option value="$PROJECT_DIR$/infrastructure/ui_component" />
             <option value="$PROJECT_DIR$/infrastructure/viewmodel" />
           </set>
         </option>

@@ -1,0 +1,4 @@
+dependencies {
+    annotationProcessor "androidx.room:room-compiler:$androidx_room_version"
+    kapt "androidx.room:room-compiler:$androidx_room_version"
+}

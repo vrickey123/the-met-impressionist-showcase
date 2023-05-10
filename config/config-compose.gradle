@@ -1,0 +1,25 @@
+android {
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "$kotlin_compose_compiler_version"
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    // implementation platform("androidx.compose:compose-bom:${androidx_compose_bom_version}")
+    implementation "androidx.compose.ui:ui:$androidx_compose_ui_version"
+    implementation "androidx.compose.ui:ui-graphics:$androidx_compose_ui_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$androidx_compose_ui_version"
+    implementation "androidx.compose.runtime:runtime:$androidx_compose_ui_version"
+    implementation "androidx.compose.material3:material3:$androidx_compose_material3_version"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$androidx_compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$androidx_compose_ui_version"
+}

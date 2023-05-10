@@ -1,0 +1,12 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+apply from: "${rootProject.rootDir}/config/config-android-default.gradle"
+apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
+apply from: "${rootProject.rootDir}/config/config-compose.gradle"
+
+dependencies {
+    api "io.coil-kt:coil-compose:$coil_compose_version"
+}

@@ -1,0 +1,9 @@
+dependencies {
+    implementation "com.google.dagger:hilt-android:$google_hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$google_hilt_version"
+}
+
+// Allow references to generated code (Hilt)
+kapt {
+    correctErrorTypes true
+}

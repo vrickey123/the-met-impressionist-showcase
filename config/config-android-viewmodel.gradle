@@ -1,0 +1,3 @@
+dependencies {
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_runtime_ktx_version"
+}

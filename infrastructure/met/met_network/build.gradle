@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: "${rootProject.rootDir}/config/config-android-default.gradle"
+apply from: "${rootProject.rootDir}/config/config-java-8.gradle"
+apply from: "${rootProject.rootDir}/config/config-compose.gradle"
+apply from: "${rootProject.rootDir}/config/config-google-hilt.gradle"
+apply from: "${rootProject.rootDir}/config/config-android-room-annotations.gradle"
+apply from: "${rootProject.rootDir}/config/config-kotlin-coroutines.gradle"
+
+dependencies {
+    implementation project(':core:met:met_api')
+    implementation project(':core:state')
+
+    // Store
+    // implementation "androidx.work:work-runtime-ktx:$androidx_work_version"
+    implementation "androidx.room:room-ktx:$androidx_room_version"
+    implementation "androidx.room:room-runtime:$androidx_room_version"
+
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$square_retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$square_moshi_converter_version"
+
+    // Serialization
+    implementation "com.squareup.moshi:moshi:$square_moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$square_moshi_version"
+    implementation "com.squareup.moshi:moshi-adapters:$square_moshi_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$square_mock_webserver_version"
+}
